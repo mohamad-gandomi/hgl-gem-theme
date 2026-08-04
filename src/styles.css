@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #26251e;
+  background: #f7f7f4;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #f7f7f4;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.section-pad {
+  padding-block: 80px;
+}
+
+.hero-section {
+  background:
+    linear-gradient(90deg, rgba(230, 229, 224, .7) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(230, 229, 224, .7) 1px, transparent 1px),
+    #f7f7f4;
+  background-size: 80px 80px;
+}
+
+.badge {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  border-radius: 9999px;
+  background: #e6e5e0;
+  padding: 4px 10px;
+  color: #26251e;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.feature-card {
+  border: 1px solid #e6e5e0;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 24px;
+}
+
+.timeline-pill {
+  border-radius: 9999px;
+  padding: 4px 10px;
+  color: #26251e;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.timeline-thinking {
+  background: #dfa88f;
+}
+
+.timeline-grep {
+  background: #9fc9a2;
+}
+
+.timeline-read {
+  background: #9fbbe0;
+}
+
+.timeline-edit {
+  background: #c0a8dd;
+}
+
+.timeline-done {
+  background: #c08532;
+  color: #ffffff;
+}
+
+.prose-copy {
+  color: #5a5852;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.prose-copy h2 {
+  margin-top: 2rem;
+  margin-bottom: .75rem;
+  color: #26251e;
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: -.01em;
+  line-height: 1.25;
+}
+
+.prose-copy p {
+  margin: 0 0 1rem;
+}
+
+@media (max-width: 640px) {
+  .section-pad {
+    padding-block: 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
