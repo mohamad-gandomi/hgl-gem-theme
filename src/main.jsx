@@ -66,6 +66,7 @@ function Icon({ name, className = 'h-5 w-5' }) {
     check: <path d="m5 13 4 4L19 7" />,
     menu: <path d="M4 6h16M4 12h16M4 18h16" />,
     close: <path d="m6 6 12 12M18 6 6 18" />,
+    search: <path d="m21 21-4.3-4.3M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" />,
     spark: <path d="M12 3l1.9 5.2L19 10l-5.1 1.8L12 17l-1.9-5.2L5 10l5.1-1.8L12 3Z" />,
     mail: <path d="M4 6h16v12H4zM4 7l8 6 8-6" />,
     pin: <path d="M12 21s7-5.1 7-11a7 7 0 0 0-14 0c0 5.9 7 11 7 11Z" />
@@ -100,6 +101,8 @@ function useRoute() {
 
 function App() {
   const { path, navigate } = useRoute()
+  const [verifyOpen, setVerifyOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   const currentPost = useMemo(() => posts.find((post) => path === `/blog/${post.slug}`), [path])
 
   let page = <HomePage navigate={navigate} />
@@ -111,9 +114,11 @@ function App() {
 
   return (
     <>
-      <Header path={path} navigate={navigate} />
+      <Header path={path} navigate={navigate} onVerify={() => setVerifyOpen(true)} onSearch={() => setSearchOpen(true)} />
       <main>{page}</main>
       <Footer navigate={navigate} />
+      <VerifyModal open={verifyOpen} onClose={() => setVerifyOpen(false)} />
+      <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   )
 }
@@ -131,7 +136,7 @@ function LinkButton({ href, navigate, children, className = '', icon = false }) 
   )
 }
 
-function Header({ path, navigate }) {
+function Header({ path, navigate, onVerify, onSearch }) {
   const [open, setOpen] = useState(false)
 
   const go = (href) => {
@@ -161,8 +166,21 @@ function Header({ path, navigate }) {
           ))}
         </div>
         <div className="hidden items-center gap-3 md:flex">
-          <button type="button" onClick={() => go('/about')} className="text-sm font-medium text-body hover:text-ink">About HGL GEM</button>
-          <LinkButton href="/contact" navigate={go} className="bg-primary text-white hover:bg-primaryActive">Contact us</LinkButton>
+          <button
+            type="button"
+            onClick={onSearch}
+            className="grid h-10 w-10 place-items-center rounded-lg border border-hairlineStrong bg-surface text-ink transition-colors hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            aria-label="Search"
+          >
+            <Icon name="search" className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={onVerify}
+            className="inline-flex h-11 items-center justify-center rounded-lg bg-primary px-5 text-sm font-medium text-ink transition-colors hover:bg-primaryActive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            Verify Certificates
+          </button>
         </div>
         <button
           type="button"
@@ -181,11 +199,108 @@ function Header({ path, navigate }) {
                 {item.label}
               </button>
             ))}
-            <LinkButton href="/contact" navigate={go} className="mt-2 bg-primary text-white">Start now</LinkButton>
+            <div className="mt-2 flex gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false)
+                  onSearch()
+                }}
+                className="grid h-11 w-11 place-items-center rounded-lg border border-hairlineStrong bg-surface text-ink"
+                aria-label="Search"
+              >
+                <Icon name="search" className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false)
+                  onVerify()
+                }}
+                className="inline-flex h-11 flex-1 items-center justify-center rounded-lg bg-primary px-5 text-sm font-medium text-ink"
+              >
+                Verify Certificates
+              </button>
+            </div>
           </div>
         </div>
       )}
     </header>
+  )
+}
+
+function VerifyModal({ open, onClose }) {
+  if (!open) return null
+
+  return (
+    <div className="fixed inset-0 z-[100] grid place-items-center bg-ink/45 px-4 py-6" role="dialog" aria-modal="true" aria-labelledby="verify-title">
+      <div className="w-full max-w-md rounded-xl border border-hairline bg-surface p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="badge">Certificate check</p>
+            <h2 id="verify-title" className="mt-4 text-2xl font-normal tracking-[-0.01em] text-ink">Verify Certificates</h2>
+            <p className="mt-2 text-sm leading-6 text-body">Enter the licence code printed on the gemstone certificate.</p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-hairlineStrong bg-canvas text-ink hover:border-ink"
+            aria-label="Close modal"
+          >
+            <Icon name="close" className="h-4 w-4" />
+          </button>
+        </div>
+        <label className="mt-6 block">
+          <span className="text-sm font-medium text-ink">Licence code</span>
+          <input
+            className="mt-2 h-11 w-full rounded-lg border border-hairline bg-canvasSoft px-4 text-sm text-ink outline-none focus:border-primary"
+            placeholder="Example: HGL-000000"
+          />
+        </label>
+        <button type="button" className="mt-5 inline-flex h-11 w-full items-center justify-center rounded-lg bg-primary px-5 text-sm font-medium text-ink hover:bg-primaryActive">
+          Verify Certificates
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function SearchModal({ open, onClose }) {
+  if (!open) return null
+
+  return (
+    <div className="fixed inset-0 z-[100] grid place-items-center bg-ink/45 px-4 py-6" role="dialog" aria-modal="true" aria-labelledby="search-title">
+      <div className="w-full max-w-lg rounded-xl border border-hairline bg-surface p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="badge">Search</p>
+            <h2 id="search-title" className="mt-4 text-2xl font-normal tracking-[-0.01em] text-ink">Search HGL GEM</h2>
+            <p className="mt-2 text-sm leading-6 text-body">Search certificates, services, news, and gemstone information.</p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-hairlineStrong bg-canvas text-ink hover:border-ink"
+            aria-label="Close modal"
+          >
+            <Icon name="close" className="h-4 w-4" />
+          </button>
+        </div>
+        <label className="mt-6 block">
+          <span className="text-sm font-medium text-ink">Search term</span>
+          <div className="mt-2 flex items-center gap-3 rounded-lg border border-hairline bg-canvasSoft px-4 focus-within:border-primary">
+            <Icon name="search" className="h-4 w-4 text-muted" />
+            <input
+              className="h-11 min-w-0 flex-1 bg-transparent text-sm text-ink outline-none"
+              placeholder="Type what you want to find"
+            />
+          </div>
+        </label>
+        <button type="button" className="mt-5 inline-flex h-11 w-full items-center justify-center rounded-lg bg-primary px-5 text-sm font-medium text-ink hover:bg-primaryActive">
+          Search
+        </button>
+      </div>
+    </div>
   )
 }
 
@@ -264,21 +379,34 @@ function HomePage({ navigate }) {
 
 function WhyUs() {
   const points = [
-    'No remote images or font calls by default',
-    'Small reusable sections instead of page weight',
-    'Stable placeholder media boxes for later assets'
+    {
+      title: 'Over 20 years of experience',
+      text: 'Our research and specialist work in the field of gemstones began in 1999.'
+    },
+    {
+      title: 'Official court-certified expert',
+      text: 'Member of the Association of Official Court Experts in gold, jewellery, and gemstones.'
+    },
+    {
+      title: 'Authenticity certificates',
+      text: 'Our specialist team assesses gemstone authenticity and quality before issuing certificates.'
+    },
+    {
+      title: 'International-standard training',
+      text: 'Introductory and advanced gemology courses covering coloured gemstones, diamonds, and pearls.'
+    }
   ]
 
   return (
     <section className="section-pad">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionIntro label="Why us" title="Built for speed first, then polish." text="The structure follows the provided design system: warm canvas, hairline depth, sparse CTAs, and clear editorial pacing." />
-        <div className="grid gap-4 md:grid-cols-3">
+        <SectionIntro label="Why us" title="Trusted gemstone expertise, documented clearly." text="HGL GEM combines long-running gemology research, certified expert assessment, and certificate services that support confident buying, selling, and learning." />
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {points.map((point) => (
-            <article key={point} className="feature-card">
+            <article key={point.title} className="feature-card">
               <Icon name="check" className="h-5 w-5 text-primary" />
-              <h3 className="mt-6 text-lg font-semibold text-ink">{point}</h3>
-              <p className="mt-3 text-sm leading-6 text-body">A clean implementation choice that keeps loading fast and later edits simple.</p>
+              <h3 className="mt-6 text-lg font-semibold text-ink">{point.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-body">{point.text}</p>
             </article>
           ))}
         </div>
@@ -329,7 +457,7 @@ function Cta({ navigate }) {
         <p className="badge mx-auto">Call to action</p>
         <h2 className="mt-5 text-4xl font-normal tracking-[-0.02em] text-ink sm:text-5xl">Send the website problem. Get a clear next step.</h2>
         <p className="mt-5 text-base leading-7 text-body">Use the contact page to describe the project. The site is ready for your real photos, posts, service details, and brand name.</p>
-        <LinkButton href="/contact" navigate={navigate} className="mt-8 bg-primary text-white hover:bg-primaryActive" icon>Start the conversation</LinkButton>
+        <LinkButton href="/contact" navigate={navigate} className="mt-8 bg-primary text-ink hover:bg-primaryActive" icon>Start the conversation</LinkButton>
       </div>
     </section>
   )
@@ -381,7 +509,7 @@ function AboutPage() {
         <Placeholder label="Company image placeholder" />
         <div className="space-y-4 text-base leading-7 text-body">
           <p>We keep the site architecture simple: reusable sections, clear typography, local placeholders, and a minimal JavaScript footprint. That makes the site faster to load and easier to maintain.</p>
-          <p>The visual language comes from the supplied design document: warm cream canvas, editorial spacing, orange for primary actions, and hairline-only surfaces.</p>
+          <p>The visual language comes from the supplied design document: warm cream canvas, editorial spacing, gem-gold primary actions, and hairline-only surfaces.</p>
           <div className="grid gap-4 sm:grid-cols-3">
             {['Planning', 'Design', 'Launch'].map((item) => (
               <div key={item} className="rounded-xl border border-hairline bg-surface p-5">
@@ -414,7 +542,7 @@ function ContactPage() {
             <span className="text-sm font-medium text-ink">Message</span>
             <textarea className="mt-2 min-h-36 w-full rounded-lg border border-hairline bg-canvasSoft px-4 py-3 text-sm text-ink outline-none focus:border-primary" placeholder="Write a short project description." />
           </label>
-          <button type="button" className="mt-5 inline-flex h-11 items-center rounded-lg bg-primary px-5 text-sm font-medium text-white hover:bg-primaryActive">Send message</button>
+          <button type="button" className="mt-5 inline-flex h-11 items-center rounded-lg bg-primary px-5 text-sm font-medium text-ink hover:bg-primaryActive">Send message</button>
         </form>
       </div>
     </PageShell>
