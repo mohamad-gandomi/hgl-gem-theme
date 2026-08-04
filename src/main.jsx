@@ -1,8 +1,28 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right.mjs'
+import BriefcaseBusiness from 'lucide-react/dist/esm/icons/briefcase-business.mjs'
+import Check from 'lucide-react/dist/esm/icons/check.mjs'
+import Clock from 'lucide-react/dist/esm/icons/clock.mjs'
+import Home from 'lucide-react/dist/esm/icons/home.mjs'
+import Info from 'lucide-react/dist/esm/icons/info.mjs'
+import MapPin from 'lucide-react/dist/esm/icons/map-pin.mjs'
+import Menu from 'lucide-react/dist/esm/icons/menu.mjs'
+import Newspaper from 'lucide-react/dist/esm/icons/newspaper.mjs'
+import PhoneCall from 'lucide-react/dist/esm/icons/phone-call.mjs'
+import Search from 'lucide-react/dist/esm/icons/search.mjs'
+import X from 'lucide-react/dist/esm/icons/x.mjs'
 import './styles.css'
 
 const brandName = 'HGL GEM'
+
+const navIcons = {
+  '/': Home,
+  '/about': Info,
+  '/services': BriefcaseBusiness,
+  '/blog': Newspaper,
+  '/contact': PhoneCall
+}
 
 const contactInfo = {
   fa: {
@@ -362,25 +382,6 @@ const content = {
   }
 }
 
-function Icon({ name, className = 'h-5 w-5' }) {
-  const paths = {
-    arrow: <path d="M5 12h14m-6-6 6 6-6 6" />,
-    check: <path d="m5 13 4 4L19 7" />,
-    menu: <path d="M4 6h16M4 12h16M4 18h16" />,
-    close: <path d="m6 6 12 12M18 6 6 18" />,
-    search: <path d="m21 21-4.3-4.3M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" />,
-    pin: <path d="M12 21s7-5.1 7-11a7 7 0 0 0-14 0c0 5.9 7 11 7 11Z" />,
-    phone: <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6.4 6.4l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z" />,
-    clock: <path d="M12 8v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-  }
-
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      {paths[name]}
-    </svg>
-  )
-}
-
 function normalizePath(path) {
   const locale = path === '/en' || path.startsWith('/en/') ? 'en' : 'fa'
   const routePath = locale === 'en' ? path.replace(/^\/en/, '') || '/' : path
@@ -458,7 +459,7 @@ function LinkButton({ href, locale, navigate, children, className = '', icon = f
       className={`inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${className}`}
     >
       {children}
-      {icon && <Icon name="arrow" className="direction-arrow h-4 w-4" />}
+      {icon && <ArrowRight strokeWidth={1.8} className="direction-arrow h-4 w-4" />}
     </button>
   )
 }
@@ -483,46 +484,56 @@ function Header({ copy, locale, routePath, navigate, onVerify, onSearch }) {
           <span className="text-base font-semibold">{brandName}</span>
         </button>
         <div className="hidden items-center gap-7 md:flex">
-          {copy.nav.map((item) => (
-            <button
-              key={item.href}
-              type="button"
-              onClick={() => go(item.href)}
-              className={`text-sm font-medium transition-colors hover:text-ink ${routePath === item.href ? 'text-ink' : 'text-body'}`}
-            >
-              {item.label}
-            </button>
-          ))}
+          {copy.nav.map((item) => {
+            const NavIcon = navIcons[item.href]
+
+            return (
+              <button
+                key={item.href}
+                type="button"
+                onClick={() => go(item.href)}
+                className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-ink ${routePath === item.href ? 'text-ink' : 'text-body'}`}
+              >
+                <NavIcon strokeWidth={1.7} className={`h-[18px] w-[18px] ${routePath === item.href ? 'text-primary' : 'text-muted'}`} />
+                {item.label}
+              </button>
+            )
+          })}
         </div>
         <div className="hidden items-center gap-3 md:flex">
           <button type="button" onClick={() => navigate(languageHref)} className="h-10 rounded-lg border border-hairlineStrong bg-surface px-3 text-sm font-medium text-ink hover:border-ink">
             {copy.langName}
           </button>
           <button type="button" onClick={onSearch} className="grid h-10 w-10 place-items-center rounded-lg border border-hairlineStrong bg-surface text-ink transition-colors hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" aria-label={copy.ui.search}>
-            <Icon name="search" className="h-4 w-4" />
+            <Search strokeWidth={1.8} className="h-4 w-4" />
           </button>
           <button type="button" onClick={onVerify} className="inline-flex h-11 items-center justify-center rounded-lg bg-primary px-5 text-sm font-medium text-ink transition-colors hover:bg-primaryActive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
             {copy.ui.verify}
           </button>
         </div>
         <button type="button" onClick={() => setOpen((value) => !value)} className="grid h-10 w-10 place-items-center rounded-lg border border-hairline bg-surface md:hidden" aria-label={copy.ui.menu}>
-          <Icon name={open ? 'close' : 'menu'} />
+          {open ? <X strokeWidth={1.8} /> : <Menu strokeWidth={1.8} />}
         </button>
       </nav>
       {open && (
         <div className="border-t border-hairline bg-canvas px-4 py-4 md:hidden">
           <div className="mx-auto grid max-w-7xl gap-2">
-            {copy.nav.map((item) => (
-              <button key={item.href} type="button" onClick={() => go(item.href)} className="rounded-lg px-3 py-3 text-start text-sm font-medium text-ink hover:bg-surface">
-                {item.label}
-              </button>
-            ))}
+            {copy.nav.map((item) => {
+              const NavIcon = navIcons[item.href]
+
+              return (
+                <button key={item.href} type="button" onClick={() => go(item.href)} className="inline-flex items-center gap-2 rounded-lg px-3 py-3 text-start text-sm font-medium text-ink hover:bg-surface">
+                  <NavIcon strokeWidth={1.7} className={`h-[18px] w-[18px] ${routePath === item.href ? 'text-primary' : 'text-muted'}`} />
+                  {item.label}
+                </button>
+              )
+            })}
             <div className="mt-2 flex gap-2">
               <button type="button" onClick={() => navigate(languageHref)} className="h-11 rounded-lg border border-hairlineStrong bg-surface px-3 text-sm font-medium text-ink">
                 {copy.langName}
               </button>
               <button type="button" onClick={() => { setOpen(false); onSearch() }} className="grid h-11 w-11 place-items-center rounded-lg border border-hairlineStrong bg-surface text-ink" aria-label={copy.ui.search}>
-                <Icon name="search" className="h-4 w-4" />
+                <Search strokeWidth={1.8} className="h-4 w-4" />
               </button>
               <button type="button" onClick={() => { setOpen(false); onVerify() }} className="inline-flex h-11 flex-1 items-center justify-center rounded-lg bg-primary px-5 text-sm font-medium text-ink">
                 {copy.ui.verify}
@@ -548,7 +559,7 @@ function VerifyModal({ copy, open, onClose }) {
             <p className="mt-2 text-sm leading-6 text-body">{copy.ui.verifyText}</p>
           </div>
           <button type="button" onClick={onClose} className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-hairlineStrong bg-canvas text-ink hover:border-ink" aria-label={copy.ui.close}>
-            <Icon name="close" className="h-4 w-4" />
+            <X strokeWidth={1.8} className="h-4 w-4" />
           </button>
         </div>
         <label className="mt-6 block">
@@ -576,13 +587,13 @@ function SearchModal({ copy, locale, navigate, open, onClose }) {
             <p className="mt-2 text-sm leading-6 text-body">{copy.ui.searchText}</p>
           </div>
           <button type="button" onClick={onClose} className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-hairlineStrong bg-canvas text-ink hover:border-ink" aria-label={copy.ui.close}>
-            <Icon name="close" className="h-4 w-4" />
+            <X strokeWidth={1.8} className="h-4 w-4" />
           </button>
         </div>
         <label className="mt-6 block">
           <span className="text-sm font-medium text-ink">{copy.ui.searchTerm}</span>
           <div className="mt-2 flex items-center gap-3 rounded-lg border border-hairline bg-canvasSoft px-4 focus-within:border-primary">
-            <Icon name="search" className="h-4 w-4 text-muted" />
+            <Search strokeWidth={1.8} className="h-4 w-4 text-muted" />
             <input className="h-11 min-w-0 flex-1 bg-transparent text-sm text-ink outline-none" placeholder={copy.ui.searchPlaceholder} />
           </div>
         </label>
@@ -680,7 +691,7 @@ function WhyUs({ copy }) {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {copy.why.points.map((point) => (
             <article key={point.title} className="feature-card">
-              <Icon name="check" className="h-5 w-5 text-primary" />
+              <Check strokeWidth={1.8} className="h-5 w-5 text-primary" />
               <h3 className="mt-6 text-lg font-semibold text-ink">{point.title}</h3>
               <p className="mt-3 text-sm leading-6 text-body">{point.text}</p>
             </article>
@@ -811,15 +822,15 @@ function ContactPage({ copy, contacts }) {
           <h2 className="text-2xl font-normal tracking-[-0.01em] text-ink">{copy.contactPage.infoTitle}</h2>
           <div className="mt-6 grid gap-5 text-sm leading-6 text-body">
             <div className="flex gap-3">
-              <Icon name="pin" className="mt-1 h-5 w-5 shrink-0 text-primary" />
+              <MapPin strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-primary" />
               <span>{contacts.address}</span>
             </div>
             <div className="flex gap-3">
-              <Icon name="clock" className="mt-1 h-5 w-5 shrink-0 text-primary" />
+              <Clock strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-primary" />
               <span>{contacts.hours}</span>
             </div>
             <div className="flex gap-3">
-              <Icon name="phone" className="mt-1 h-5 w-5 shrink-0 text-primary" />
+              <PhoneCall strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-primary" />
               <div className="grid gap-2">
                 {contactInfo.phones.map((phone) => <a key={phone.href} href={phone.href} className="font-medium text-ink hover:text-primary">{phone.label}</a>)}
               </div>
@@ -876,7 +887,7 @@ function SearchPage({ copy }) {
           <label className="block">
             <span className="text-sm font-medium text-ink">{copy.searchPage.field}</span>
             <div className="mt-2 flex items-center gap-3 rounded-lg border border-hairline bg-canvasSoft px-4 focus-within:border-primary">
-              <Icon name="search" className="h-4 w-4 shrink-0 text-muted" />
+              <Search strokeWidth={1.8} className="h-4 w-4 shrink-0 text-muted" />
               <input className="h-12 min-w-0 flex-1 bg-transparent text-sm text-ink outline-none" placeholder={copy.searchPage.placeholder} />
             </div>
           </label>
@@ -944,7 +955,7 @@ function PostGrid({ copy, locale, posts, navigate }) {
           <h3 className="mt-3 text-xl font-normal tracking-[-0.01em] text-ink">{post.title}</h3>
           <p className="mt-3 text-sm leading-6 text-body">{post.excerpt}</p>
           <button type="button" onClick={() => navigate(localizeHref(`/blog/${post.slug}`, locale))} className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-ink hover:text-primary">
-            {copy.ui.readArticle} <Icon name="arrow" className="direction-arrow h-4 w-4" />
+            {copy.ui.readArticle} <ArrowRight strokeWidth={1.8} className="direction-arrow h-4 w-4" />
           </button>
         </article>
       ))}
