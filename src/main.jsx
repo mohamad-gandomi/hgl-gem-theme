@@ -143,10 +143,10 @@ function Header({ path, navigate }) {
     <header className="sticky top-0 z-50 border-b border-hairline bg-canvas/95 backdrop-blur">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <button type="button" onClick={() => go('/')} className="flex items-center gap-2 text-left text-ink">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-white">
-            <Icon name="spark" className="h-4 w-4" />
+          <span className="grid h-10 w-10 place-items-center rounded-lg bg-ink p-1.5">
+            <img src="/assets/img/hgl-logo.webp" alt="HGL GEM logo" className="h-full w-full object-contain" />
           </span>
-          <span className="text-base font-semibold">Build Studio</span>
+          <span className="text-base font-semibold">HGL GEM</span>
         </button>
         <div className="hidden items-center gap-7 md:flex">
           {navItems.map((item) => (
@@ -161,8 +161,8 @@ function Header({ path, navigate }) {
           ))}
         </div>
         <div className="hidden items-center gap-3 md:flex">
-          <button type="button" onClick={() => go('/contact')} className="text-sm font-medium text-body hover:text-ink">Request a review</button>
-          <LinkButton href="/contact" navigate={go} className="bg-primary text-white hover:bg-primaryActive">Start now</LinkButton>
+          <button type="button" onClick={() => go('/about')} className="text-sm font-medium text-body hover:text-ink">About HGL GEM</button>
+          <LinkButton href="/contact" navigate={go} className="bg-primary text-white hover:bg-primaryActive">Contact us</LinkButton>
         </div>
         <button
           type="button"
@@ -195,61 +195,38 @@ function Hero({ navigate }) {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
         <div className="grid gap-10 lg:grid-cols-[1.02fr_.98fr] lg:items-end">
           <div>
-            <p className="badge">Fast local-first websites</p>
-            <h1 className="mt-6 max-w-4xl text-5xl font-normal leading-[1.05] tracking-[-0.03em] text-ink sm:text-6xl lg:text-7xl">
-              Launch a calm, sharp website that loads before the pitch is finished.
+            <p className="badge">Gemstone certification</p>
+            <h1 className="mt-6 max-w-3xl text-3xl font-normal leading-[1.12] tracking-[-0.01em] text-ink sm:text-4xl lg:text-5xl">
+              Issuance of Authenticity Certificates
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-body">
-              A React and Tailwind marketing site with reusable pages, local placeholders, clean routing, and no image weight until you add final assets.
+              Issuing authenticity certificates for precious gemstones, which can be verified and tracked through this website. Our expert team uses advanced equipment to assess each stone's authenticity and quality, ensuring confidence in buying and selling these valuable gems.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <LinkButton href="/contact" navigate={navigate} className="bg-ink text-canvas hover:bg-primary" icon>Request a review</LinkButton>
-              <LinkButton href="/services" navigate={navigate} className="border border-hairlineStrong bg-surface text-ink hover:border-ink">View services</LinkButton>
+              <LinkButton href="/about" navigate={navigate} className="bg-ink text-canvas hover:bg-primary" icon>About HGL GEM</LinkButton>
+              <LinkButton href="/contact" navigate={navigate} className="border border-hairlineStrong bg-surface text-ink hover:border-ink">Contact us</LinkButton>
             </div>
           </div>
-          <ProductMockup />
+          <HeroImage />
         </div>
       </div>
     </section>
   )
 }
 
-function ProductMockup() {
-  const steps = [
-    ['Thinking', 'thinking'],
-    ['Research', 'grep'],
-    ['Write', 'read'],
-    ['Build', 'edit'],
-    ['Done', 'done']
-  ]
-
+function HeroImage() {
   return (
-    <div className="rounded-xl border border-hairline bg-surface p-3">
-      <div className="grid min-h-[420px] gap-3 rounded-lg bg-canvasSoft p-3 sm:grid-cols-[.7fr_1.3fr]">
-        <div className="hidden rounded-lg border border-hairline bg-surface p-4 sm:block">
-          <p className="font-mono text-xs text-muted">pages</p>
-          {['main.jsx', 'services.jsx', 'blog.jsx', 'contact.jsx'].map((item) => (
-            <div key={item} className="mt-3 rounded-md border border-hairlineSoft px-3 py-2 font-mono text-xs text-body">{item}</div>
-          ))}
-        </div>
-        <div className="rounded-lg border border-hairline bg-surface p-4">
-          <div className="flex flex-wrap gap-2">
-            {steps.map(([label, color]) => (
-              <span key={label} className={`timeline-pill timeline-${color}`}>{label}</span>
-            ))}
-          </div>
-          <div className="mt-8 space-y-3 font-mono text-sm text-body">
-            <p><span className="text-primary">const</span> site = buildFastPages();</p>
-            <p><span className="text-primary">site</span>.useLocalAssets();</p>
-            <p><span className="text-primary">site</span>.shipCleanRoutes();</p>
-          </div>
-          <div className="mt-10 grid gap-3 sm:grid-cols-2">
-            <Placeholder label="Hero media slot" />
-            <Placeholder label="Team or product slot" />
-          </div>
-        </div>
+    <figure className="rounded-xl border border-hairline bg-surface p-3">
+      <div className="overflow-hidden rounded-lg border border-hairline bg-canvasSoft">
+        <img
+          src="/assets/img/hero-image.webp"
+          alt="Polished turquoise gemstone"
+          className="h-full min-h-[340px] w-full object-cover"
+          decoding="async"
+          fetchPriority="high"
+        />
       </div>
-    </div>
+    </figure>
   )
 }
 
@@ -528,8 +505,10 @@ function Footer({ navigate }) {
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-[1.2fr_repeat(4,1fr)] lg:px-8">
         <div>
           <div className="flex items-center gap-2 text-ink">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-white"><Icon name="spark" className="h-4 w-4" /></span>
-            <span className="font-semibold">Build Studio</span>
+            <span className="grid h-10 w-10 place-items-center rounded-lg bg-ink p-1.5">
+              <img src="/assets/img/hgl-logo.webp" alt="HGL GEM logo" className="h-full w-full object-contain" />
+            </span>
+            <span className="font-semibold">HGL GEM</span>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-6 text-body">A fast local-first website foundation ready for your final content and images.</p>
         </div>
