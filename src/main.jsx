@@ -12,31 +12,46 @@ const navItems = [
 
 const services = [
   {
-    title: 'Fast website builds',
-    text: 'Lean React interfaces, clean Tailwind systems, and launch-ready pages without heavyweight dependencies.',
-    pill: 'Build'
+    title: 'Expert gemstone assessment',
+    text: 'Specialized evaluation of gemstones, valid identification certificates, and buying or selling guidance based on expert analysis.',
+    pill: 'Assessment'
   },
   {
-    title: 'Conversion page design',
-    text: 'Problem-first landing pages with concise copy, calm hierarchy, and strong calls to action.',
-    pill: 'Design'
+    title: 'Legal and judicial services',
+    text: 'Official court expert assessment for gemstones, gold, and jewellery, including formal reports for judicial and administrative authorities.',
+    pill: 'Legal'
   },
   {
-    title: 'Performance cleanup',
-    text: 'Bundle trimming, layout fixes, responsive polish, and front-end structure that stays easy to maintain.',
-    pill: 'Speed'
+    title: 'Gemology training and courses',
+    text: 'Introductory and advanced gemology courses covering coloured stones, diamonds, and pearls, held with Technical and Vocational Training Organization authorization.',
+    pill: 'Training'
   },
   {
-    title: 'Content systems',
-    text: 'Service pages, blog templates, reusable sections, and placeholder media slots ready for your assets.',
-    pill: 'Scale'
+    title: 'Specialized consultation',
+    text: 'Professional consultation for investing in the gemstone market and making more confident decisions around authenticity, value, and quality.',
+    pill: 'Consulting'
   }
 ]
 
 const members = [
-  { name: 'Mina Farahani', role: 'Design Lead' },
-  { name: 'Arman Kaviani', role: 'Frontend Engineer' },
-  { name: 'Sara Nouri', role: 'Content Strategist' }
+  {
+    name: 'Marziyeh Khajeh Yazdi',
+    role: 'M.Sc. Geology and Gemology',
+    text: 'Head of the expert assessment team with more than 20 years of experience in gemstone and jewellery evaluation, certification, and education.',
+    phone: '09153588482'
+  },
+  {
+    name: 'Dalaram Pirouz Mehr',
+    role: 'Gemologist and Jewellery Designer',
+    text: 'Active in gemology and jewellery design, with more than 5 years of professional experience in the gemstone field.',
+    phone: '09303588021'
+  },
+  {
+    name: 'Mahsa Hassanzadeh',
+    role: 'Legal Affairs Expert',
+    text: 'Member of the legal consultation and expert assessment team, responsible for customer relations and client communication.',
+    phone: '09303588021'
+  }
 ]
 
 const posts = [
@@ -353,6 +368,20 @@ function Placeholder({ label = 'Image placeholder' }) {
   )
 }
 
+function AboutImage({ className = '' }) {
+  return (
+    <figure className={`overflow-hidden rounded-xl border border-hairline bg-surface p-3 ${className}`}>
+      <img
+        src="/assets/img/about-us.webp"
+        alt="Green gemstones under gemological inspection"
+        className="h-full min-h-[320px] w-full rounded-lg object-cover"
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+  )
+}
+
 function SectionIntro({ label, title, text }) {
   return (
     <div className="mx-auto mb-10 max-w-3xl text-center">
@@ -421,11 +450,11 @@ function AboutPreview({ navigate }) {
       <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
         <div>
           <p className="badge">About us</p>
-          <h2 className="mt-5 text-4xl font-normal tracking-[-0.02em] text-ink sm:text-5xl">Small team, careful pages, practical launches.</h2>
-          <p className="mt-5 text-base leading-7 text-body">We design and build marketing websites that feel trustworthy without becoming heavy. Every section has a job, every CTA is intentional, and every page stays easy to update.</p>
+          <h2 className="mt-5 text-4xl font-normal tracking-[-0.02em] text-ink sm:text-5xl">Two decades of gemstone research, certification, and training.</h2>
+          <p className="mt-5 text-base leading-7 text-body">Our work began in 1999 as a university research project at Ferdowsi University of Mashhad. Today, HGL GEM combines official expert assessment, advanced gemological equipment, and practical education for buyers, sellers, and students of precious stones.</p>
           <LinkButton href="/about" navigate={navigate} className="mt-8 border border-hairlineStrong bg-surface text-ink hover:border-ink" icon>Read about us</LinkButton>
         </div>
-        <Placeholder label="About image placeholder" />
+        <AboutImage />
       </div>
     </section>
   )
@@ -435,13 +464,21 @@ function Members() {
   return (
     <section className="section-pad">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionIntro label="Members" title="People behind the work." />
+        <SectionIntro label="Members" title="The expert team behind HGL GEM." />
         <div className="grid gap-4 md:grid-cols-3">
           {members.map((member) => (
             <article key={member.name} className="feature-card">
-              <Placeholder label="Member photo" />
+              <div className="grid h-12 w-12 place-items-center rounded-lg border border-hairline bg-canvasSoft text-base font-semibold text-ink">
+                {member.name
+                  .split(' ')
+                  .map((part) => part[0])
+                  .slice(0, 2)
+                  .join('')}
+              </div>
               <h3 className="mt-5 text-lg font-semibold text-ink">{member.name}</h3>
-              <p className="mt-1 text-sm text-body">{member.role}</p>
+              <p className="mt-1 text-sm font-medium text-body">{member.role}</p>
+              <p className="mt-3 text-sm leading-6 text-body">{member.text}</p>
+              <p className="mt-4 text-sm font-semibold text-ink">Phone: {member.phone}</p>
             </article>
           ))}
         </div>
@@ -455,9 +492,9 @@ function Cta({ navigate }) {
     <section className="section-pad border-y border-hairline bg-canvasSoft">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
         <p className="badge mx-auto">Call to action</p>
-        <h2 className="mt-5 text-4xl font-normal tracking-[-0.02em] text-ink sm:text-5xl">Send the website problem. Get a clear next step.</h2>
-        <p className="mt-5 text-base leading-7 text-body">Use the contact page to describe the project. The site is ready for your real photos, posts, service details, and brand name.</p>
-        <LinkButton href="/contact" navigate={navigate} className="mt-8 bg-primary text-ink hover:bg-primaryActive" icon>Start the conversation</LinkButton>
+        <h2 className="mt-5 text-4xl font-normal tracking-[-0.02em] text-ink sm:text-5xl">Need to verify a gemstone or request expert guidance?</h2>
+        <p className="mt-5 text-base leading-7 text-body">Contact HGL GEM for authenticity certificates, official expert assessment, legal reports, training information, or consultation before buying and selling precious stones.</p>
+        <LinkButton href="/contact" navigate={navigate} className="mt-8 bg-primary text-ink hover:bg-primaryActive" icon>Contact HGL GEM</LinkButton>
       </div>
     </section>
   )
@@ -467,7 +504,7 @@ function ServicesPreview({ navigate }) {
   return (
     <section className="section-pad">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionIntro label="Services" title="Four useful ways to move faster." />
+        <SectionIntro label="Services" title="Gemstone services for confident decisions." />
         <ServiceGrid />
         <div className="mt-8 text-center">
           <LinkButton href="/services" navigate={navigate} className="border border-hairlineStrong bg-surface text-ink hover:border-ink" icon>All services</LinkButton>
@@ -504,17 +541,19 @@ function LatestNews({ navigate }) {
 
 function AboutPage() {
   return (
-    <PageShell label="About us" title="A focused studio for fast, readable business websites." text="Replace this copy with your final company story when ready. The page is already structured for credibility, process, and team detail.">
+    <PageShell label="About us" title="Dedicated to the authenticity, quality, and knowledge of precious gemstones." text="HGL GEM supports confident decisions in gemstone buying, selling, certification, and education through long-term research and expert assessment.">
       <div className="grid gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
-        <Placeholder label="Company image placeholder" />
+        <AboutImage className="lg:sticky lg:top-24" />
         <div className="space-y-4 text-base leading-7 text-body">
-          <p>We keep the site architecture simple: reusable sections, clear typography, local placeholders, and a minimal JavaScript footprint. That makes the site faster to load and easier to maintain.</p>
-          <p>The visual language comes from the supplied design document: warm cream canvas, editorial spacing, gem-gold primary actions, and hairline-only surfaces.</p>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {['Planning', 'Design', 'Launch'].map((item) => (
+          <p>Our research in gemstones began in 1999, when this path started as a student project at Ferdowsi University of Mashhad. A deep interest in the beauty and hidden value of natural gems shaped our professional direction.</p>
+          <p>With more than 20 years of experience in gemstone assessment and education, we are committed to quality, authenticity, and honest guidance. HGL GEM is also a member of the Association of Official Court Experts in gold, jewellery, and gemstones.</p>
+          <p>One of our key services is issuing authenticity certificates for precious gemstones. These certificates can be tracked and verified through this website. Our specialist team uses advanced equipment to assess each stone's authenticity and quality, helping build confidence in every transaction.</p>
+          <p>Since 2005, our experience in gemology education has grown into professional training through Gohar Azmay Omid Technical and Vocational Institute. Courses cover general gemology, coloured gemstones, diamonds, and pearls, with recognized certificates awarded after successful completion.</p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {['Research since 1999', 'Official expert credibility', 'Certificate verification', 'Gemology education'].map((item) => (
               <div key={item} className="rounded-xl border border-hairline bg-surface p-5">
                 <p className="text-sm font-semibold text-ink">{item}</p>
-                <p className="mt-2 text-sm leading-6 text-body">Lean, direct, and easy to revise.</p>
+                <p className="mt-2 text-sm leading-6 text-body">Built on practical experience, specialist tools, and a commitment to transparent service.</p>
               </div>
             ))}
           </div>
@@ -560,7 +599,7 @@ function Field({ label, placeholder }) {
 
 function ServicesPage() {
   return (
-    <PageShell label="Services" title="Fast pages, quiet systems, practical delivery." text="A services page that is ready for real offers, pricing notes, and proof blocks.">
+    <PageShell label="Services" title="Expert assessment, legal reporting, training, and consultation." text="HGL GEM provides practical gemstone services for buyers, sellers, students, and legal or administrative cases where authenticity and value must be documented clearly.">
       <ServiceGrid />
     </PageShell>
   )
