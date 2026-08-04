@@ -669,7 +669,7 @@ function PageShell({ label, title, text, children }) {
 function Footer({ navigate }) {
   return (
     <footer className="border-t border-hairline bg-canvas">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-[1.2fr_repeat(4,1fr)] lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.1fr_1.7fr_repeat(2,1fr)] lg:px-8">
         <div>
           <div className="flex items-center gap-2 text-ink">
             <span className="grid h-10 w-10 place-items-center rounded-lg bg-ink p-1.5">
@@ -677,20 +677,50 @@ function Footer({ navigate }) {
             </span>
             <span className="font-semibold">HGL GEM</span>
           </div>
-          <p className="mt-4 max-w-xs text-sm leading-6 text-body">A fast local-first website foundation ready for your final content and images.</p>
+          <p className="mt-4 max-w-xs text-sm leading-6 text-body">Gemstone authenticity certificates, expert assessment, legal reporting, training, and consultation for confident decisions.</p>
         </div>
-        {['Company', 'Pages', 'Services', 'Social'].map((group, index) => (
-          <div key={group}>
-            <h3 className="text-sm font-semibold text-ink">{group}</h3>
-            <div className="mt-4 grid gap-3">
-              {navItems.slice(index === 0 ? 1 : 0, index === 0 ? 3 : 4).map((item) => (
-                <button key={`${group}-${item.href}`} type="button" onClick={() => navigate(item.href)} className="text-left text-sm text-body hover:text-ink">
-                  {item.label}
-                </button>
+        <div>
+          <h3 className="text-sm font-semibold text-ink">Contact information</h3>
+          <div className="mt-4 grid gap-3 text-sm leading-6 text-body">
+            <p>Mashhad, Imam Khomeini Street, Darayi three-way, Sabt Alley, Marmar International Gold and Jewellery Tower, 7th floor, Unit 9</p>
+            <p>Response hours: except Thursdays, 9:30 AM to 2:00 PM, and 4:00 PM to 6:00 PM by appointment</p>
+            <p className="flex flex-wrap gap-x-2 gap-y-1">
+              <span>Phone:</span>
+              {[
+                { label: '051-38114416', href: 'tel:+985138114416' },
+                { label: '09153588482', href: 'tel:+989153588482' },
+                { label: '09303588021', href: 'tel:+989303588021' }
+              ].map((phone, index) => (
+                <React.Fragment key={phone.href}>
+                  {index > 0 && <span>|</span>}
+                  <a href={phone.href} className="font-medium text-ink hover:text-primary">
+                    {phone.label}
+                  </a>
+                </React.Fragment>
               ))}
-            </div>
+            </p>
           </div>
-        ))}
+        </div>
+        <div>
+          <h3 className="text-sm font-semibold text-ink">Last blog posts</h3>
+          <div className="mt-4 grid gap-3">
+            {posts.slice(0, 3).map((post) => (
+              <button key={`footer-${post.slug}`} type="button" onClick={() => navigate(`/blog/${post.slug}`)} className="text-left text-sm leading-6 text-body hover:text-ink">
+                {post.title}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 className="text-sm font-semibold text-ink">Services</h3>
+          <div className="mt-4 grid gap-3">
+            {services.map((service) => (
+              <button key={`footer-${service.title}`} type="button" onClick={() => navigate('/services')} className="text-left text-sm text-body hover:text-ink">
+                {service.title}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </footer>
   )
