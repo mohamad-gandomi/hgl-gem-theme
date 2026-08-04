@@ -1,17 +1,27 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right.mjs'
+import Award from 'lucide-react/dist/esm/icons/award.mjs'
+import BadgeCheck from 'lucide-react/dist/esm/icons/badge-check.mjs'
 import BriefcaseBusiness from 'lucide-react/dist/esm/icons/briefcase-business.mjs'
 import Check from 'lucide-react/dist/esm/icons/check.mjs'
 import Clock from 'lucide-react/dist/esm/icons/clock.mjs'
+import Gavel from 'lucide-react/dist/esm/icons/gavel.mjs'
+import Gem from 'lucide-react/dist/esm/icons/gem.mjs'
 import Globe2 from 'lucide-react/dist/esm/icons/globe-2.mjs'
+import GraduationCap from 'lucide-react/dist/esm/icons/graduation-cap.mjs'
+import History from 'lucide-react/dist/esm/icons/history.mjs'
 import Home from 'lucide-react/dist/esm/icons/home.mjs'
 import Info from 'lucide-react/dist/esm/icons/info.mjs'
 import MapPin from 'lucide-react/dist/esm/icons/map-pin.mjs'
 import Menu from 'lucide-react/dist/esm/icons/menu.mjs'
+import MessagesSquare from 'lucide-react/dist/esm/icons/messages-square.mjs'
 import Newspaper from 'lucide-react/dist/esm/icons/newspaper.mjs'
+import Palette from 'lucide-react/dist/esm/icons/palette.mjs'
 import PhoneCall from 'lucide-react/dist/esm/icons/phone-call.mjs'
+import Scale from 'lucide-react/dist/esm/icons/scale.mjs'
 import Search from 'lucide-react/dist/esm/icons/search.mjs'
+import UserRoundCheck from 'lucide-react/dist/esm/icons/user-round-check.mjs'
 import X from 'lucide-react/dist/esm/icons/x.mjs'
 import './styles.css'
 
@@ -24,6 +34,10 @@ const navIcons = {
   '/blog': Newspaper,
   '/contact': PhoneCall
 }
+
+const whyIcons = [History, Award, BadgeCheck, GraduationCap]
+const memberIcons = [UserRoundCheck, Palette, Scale]
+const serviceIcons = [Gem, Gavel, GraduationCap, MessagesSquare]
 
 const contactInfo = {
   fa: {
@@ -729,13 +743,19 @@ function WhyUs({ copy }) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionIntro label={copy.why.label} title={copy.why.title} text={copy.why.text} />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {copy.why.points.map((point) => (
+          {copy.why.points.map((point, index) => {
+            const WhyIcon = whyIcons[index] || Check
+
+            return (
             <article key={point.title} className="feature-card">
-              <Check strokeWidth={1.8} className="h-5 w-5 text-primary" />
+              <span className="grid h-11 w-11 place-items-center rounded-lg bg-primary/15 text-primary">
+                <WhyIcon strokeWidth={1.8} className="h-6 w-6" />
+              </span>
               <h3 className="mt-6 text-lg font-semibold text-ink">{point.title}</h3>
               <p className="mt-3 text-sm leading-6 text-body">{point.text}</p>
             </article>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
@@ -764,17 +784,21 @@ function Members({ copy }) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionIntro label={copy.members.label} title={copy.members.title} />
         <div className="grid gap-4 md:grid-cols-3">
-          {copy.members.items.map((member) => (
+          {copy.members.items.map((member, index) => {
+            const MemberIcon = memberIcons[index] || UserRoundCheck
+
+            return (
             <article key={member.name} className="feature-card">
-              <div className="grid h-12 w-12 place-items-center rounded-lg border border-hairline bg-canvasSoft text-base font-semibold text-ink">
-                {member.name.replace(/مهندس|کارشناس/g, '').trim().slice(0, 2)}
-              </div>
+              <span className="grid h-11 w-11 place-items-center rounded-lg bg-primary/15 text-primary">
+                <MemberIcon strokeWidth={1.8} className="h-6 w-6" />
+              </span>
               <h3 className="mt-5 text-lg font-semibold text-ink">{member.name}</h3>
               <p className="mt-1 text-sm font-medium text-body">{member.role}</p>
               <p className="mt-3 text-sm leading-6 text-body">{member.text}</p>
               <p className="mt-4 text-sm font-semibold text-ink">{copy.members.phone}: {member.phone}</p>
             </article>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
@@ -811,13 +835,22 @@ function ServicesPreview({ copy, locale, navigate }) {
 function ServiceGrid({ services }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      {services.map((service) => (
+      {services.map((service, index) => {
+        const ServiceIcon = serviceIcons[index] || BriefcaseBusiness
+
+        return (
         <article key={service.title} className="feature-card">
-          <span className="badge">{service.pill}</span>
+          <div className="flex items-center gap-3">
+            <span className="grid h-11 w-11 place-items-center rounded-lg bg-primary/15 text-primary">
+              <ServiceIcon strokeWidth={1.8} className="h-6 w-6" />
+            </span>
+            <span className="badge">{service.pill}</span>
+          </div>
           <h3 className="mt-6 text-2xl font-normal tracking-[-0.01em] text-ink">{service.title}</h3>
           <p className="mt-3 text-sm leading-6 text-body">{service.text}</p>
         </article>
-      ))}
+        )
+      })}
     </div>
   )
 }
