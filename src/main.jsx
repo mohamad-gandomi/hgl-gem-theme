@@ -4,6 +4,7 @@ import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right.mjs'
 import BriefcaseBusiness from 'lucide-react/dist/esm/icons/briefcase-business.mjs'
 import Check from 'lucide-react/dist/esm/icons/check.mjs'
 import Clock from 'lucide-react/dist/esm/icons/clock.mjs'
+import Languages from 'lucide-react/dist/esm/icons/languages.mjs'
 import Home from 'lucide-react/dist/esm/icons/home.mjs'
 import Info from 'lucide-react/dist/esm/icons/info.mjs'
 import MapPin from 'lucide-react/dist/esm/icons/map-pin.mjs'
@@ -44,7 +45,7 @@ const contactInfo = {
 
 const content = {
   fa: {
-    langName: 'English',
+    langName: 'EN',
     altLocale: 'en',
     nav: [
       { label: 'صفحه‌اصلی', href: '/' },
@@ -224,7 +225,7 @@ const content = {
     }
   },
   en: {
-    langName: 'فارسی',
+    langName: 'فا',
     altLocale: 'fa',
     nav: [
       { label: 'Home', href: '/' },
@@ -501,7 +502,8 @@ function Header({ copy, locale, routePath, navigate, onVerify, onSearch }) {
           })}
         </div>
         <div className="hidden items-center gap-3 md:flex">
-          <button type="button" onClick={() => navigate(languageHref)} className="h-10 rounded-lg border border-hairlineStrong bg-surface px-3 text-sm font-medium text-ink hover:border-ink">
+          <button type="button" onClick={() => navigate(languageHref)} className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-hairlineStrong bg-surface px-3 text-sm font-medium text-ink hover:border-ink" aria-label="Switch language">
+            <Languages strokeWidth={1.8} className="h-4 w-4 text-muted" />
             {copy.langName}
           </button>
           <button type="button" onClick={onSearch} className="grid h-10 w-10 place-items-center rounded-lg border border-hairlineStrong bg-surface text-ink transition-colors hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" aria-label={copy.ui.search}>
@@ -529,7 +531,8 @@ function Header({ copy, locale, routePath, navigate, onVerify, onSearch }) {
               )
             })}
             <div className="mt-2 flex gap-2">
-              <button type="button" onClick={() => navigate(languageHref)} className="h-11 rounded-lg border border-hairlineStrong bg-surface px-3 text-sm font-medium text-ink">
+              <button type="button" onClick={() => navigate(languageHref)} className="inline-flex h-11 items-center gap-1.5 rounded-lg border border-hairlineStrong bg-surface px-3 text-sm font-medium text-ink" aria-label="Switch language">
+                <Languages strokeWidth={1.8} className="h-4 w-4 text-muted" />
                 {copy.langName}
               </button>
               <button type="button" onClick={() => { setOpen(false); onSearch() }} className="grid h-11 w-11 place-items-center rounded-lg border border-hairlineStrong bg-surface text-ink" aria-label={copy.ui.search}>
