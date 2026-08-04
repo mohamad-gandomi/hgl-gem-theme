@@ -75,6 +75,16 @@ const posts = [
   }
 ]
 
+const contactInfo = {
+  address: 'Mashhad, Imam Khomeini Street, Darayi three-way, Sabt Alley, Marmar International Gold and Jewellery Tower, 7th floor, Unit 9',
+  hours: 'Except Thursdays, 9:30 AM to 2:00 PM, and 4:00 PM to 6:00 PM by appointment',
+  phones: [
+    { label: '051-38114416', href: 'tel:+985138114416' },
+    { label: '09153588482', href: 'tel:+989153588482' },
+    { label: '09303588021', href: 'tel:+989303588021' }
+  ]
+}
+
 function Icon({ name, className = 'h-5 w-5' }) {
   const paths = {
     arrow: <path d="M5 12h14m-6-6 6 6-6 6" />,
@@ -84,7 +94,9 @@ function Icon({ name, className = 'h-5 w-5' }) {
     search: <path d="m21 21-4.3-4.3M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" />,
     spark: <path d="M12 3l1.9 5.2L19 10l-5.1 1.8L12 17l-1.9-5.2L5 10l5.1-1.8L12 3Z" />,
     mail: <path d="M4 6h16v12H4zM4 7l8 6 8-6" />,
-    pin: <path d="M12 21s7-5.1 7-11a7 7 0 0 0-14 0c0 5.9 7 11 7 11Z" />
+    pin: <path d="M12 21s7-5.1 7-11a7 7 0 0 0-14 0c0 5.9 7 11 7 11Z" />,
+    phone: <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6.4 6.4l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z" />,
+    clock: <path d="M12 8v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
   }
 
   return (
@@ -565,23 +577,42 @@ function AboutPage() {
 
 function ContactPage() {
   return (
-    <PageShell label="Contact us" title="Tell us what you want to build." text="This form is front-end only for now. Connect it later to your preferred backend, email service, or CRM.">
+    <PageShell label="Contact us" title="Request gemstone certification or expert guidance." text="Contact HGL GEM for certificate issuance, official expert assessment, legal reports, gemology training, or consultation before buying and selling precious stones.">
       <div className="grid gap-8 lg:grid-cols-[.75fr_1.25fr]">
         <aside className="rounded-xl border border-hairline bg-surface p-6">
-          <div className="flex gap-3 text-body"><Icon name="mail" /><span>hello@example.com</span></div>
-          <div className="mt-5 flex gap-3 text-body"><Icon name="pin" /><span>Your office address</span></div>
+          <h2 className="text-2xl font-normal tracking-[-0.01em] text-ink">Contact information</h2>
+          <div className="mt-6 grid gap-5 text-sm leading-6 text-body">
+            <div className="flex gap-3">
+              <Icon name="pin" className="mt-1 h-5 w-5 shrink-0 text-primary" />
+              <span>{contactInfo.address}</span>
+            </div>
+            <div className="flex gap-3">
+              <Icon name="clock" className="mt-1 h-5 w-5 shrink-0 text-primary" />
+              <span>{contactInfo.hours}</span>
+            </div>
+            <div className="flex gap-3">
+              <Icon name="phone" className="mt-1 h-5 w-5 shrink-0 text-primary" />
+              <div className="grid gap-2">
+                {contactInfo.phones.map((phone) => (
+                  <a key={phone.href} href={phone.href} className="font-medium text-ink hover:text-primary">
+                    {phone.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
         </aside>
         <form className="rounded-xl border border-hairline bg-surface p-6">
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Name" placeholder="Your name" />
             <Field label="Email" placeholder="you@example.com" />
           </div>
-          <Field label="Project type" placeholder="Website, redesign, speed cleanup..." />
+          <Field label="Request type" placeholder="Certificate, legal report, training, consultation..." />
           <label className="mt-4 block">
             <span className="text-sm font-medium text-ink">Message</span>
-            <textarea className="mt-2 min-h-36 w-full rounded-lg border border-hairline bg-canvasSoft px-4 py-3 text-sm text-ink outline-none focus:border-primary" placeholder="Write a short project description." />
+            <textarea className="mt-2 min-h-36 w-full rounded-lg border border-hairline bg-canvasSoft px-4 py-3 text-sm text-ink outline-none focus:border-primary" placeholder="Tell us about the gemstone, certificate code, course, or assessment you need." />
           </label>
-          <button type="button" className="mt-5 inline-flex h-11 items-center rounded-lg bg-primary px-5 text-sm font-medium text-ink hover:bg-primaryActive">Send message</button>
+          <button type="button" className="mt-5 inline-flex h-11 items-center rounded-lg bg-primary px-5 text-sm font-medium text-ink hover:bg-primaryActive">Send request</button>
         </form>
       </div>
     </PageShell>
@@ -682,15 +713,11 @@ function Footer({ navigate }) {
         <div>
           <h3 className="text-sm font-semibold text-ink">Contact information</h3>
           <div className="mt-4 grid gap-3 text-sm leading-6 text-body">
-            <p>Mashhad, Imam Khomeini Street, Darayi three-way, Sabt Alley, Marmar International Gold and Jewellery Tower, 7th floor, Unit 9</p>
-            <p>Response hours: except Thursdays, 9:30 AM to 2:00 PM, and 4:00 PM to 6:00 PM by appointment</p>
+            <p>{contactInfo.address}</p>
+            <p>Response hours: {contactInfo.hours.charAt(0).toLowerCase() + contactInfo.hours.slice(1)}</p>
             <p className="flex flex-wrap gap-x-2 gap-y-1">
               <span>Phone:</span>
-              {[
-                { label: '051-38114416', href: 'tel:+985138114416' },
-                { label: '09153588482', href: 'tel:+989153588482' },
-                { label: '09303588021', href: 'tel:+989303588021' }
-              ].map((phone, index) => (
+              {contactInfo.phones.map((phone, index) => (
                 <React.Fragment key={phone.href}>
                   {index > 0 && <span>|</span>}
                   <a href={phone.href} className="font-medium text-ink hover:text-primary">
