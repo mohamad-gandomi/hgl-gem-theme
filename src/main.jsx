@@ -607,7 +607,7 @@ function ContactPage() {
             <Field label="Name" placeholder="Your name" />
             <Field label="Email" placeholder="you@example.com" />
           </div>
-          <Field label="Request type" placeholder="Certificate, legal report, training, consultation..." />
+          <Field label="Request type" placeholder="Certificate, legal report, training, consultation..." className="mt-4" />
           <label className="mt-4 block">
             <span className="text-sm font-medium text-ink">Message</span>
             <textarea className="mt-2 min-h-36 w-full rounded-lg border border-hairline bg-canvasSoft px-4 py-3 text-sm text-ink outline-none focus:border-primary" placeholder="Tell us about the gemstone, certificate code, course, or assessment you need." />
@@ -619,9 +619,9 @@ function ContactPage() {
   )
 }
 
-function Field({ label, placeholder }) {
+function Field({ label, placeholder, className = '' }) {
   return (
-    <label className="mt-4 block first:mt-0">
+    <label className={`block ${className}`}>
       <span className="text-sm font-medium text-ink">{label}</span>
       <input className="mt-2 h-11 w-full rounded-lg border border-hairline bg-canvasSoft px-4 text-sm text-ink outline-none focus:border-primary" placeholder={placeholder} />
     </label>
@@ -638,7 +638,7 @@ function ServicesPage() {
 
 function BlogPage({ navigate }) {
   return (
-    <PageShell label="Blog" title="Notes, updates, and practical launch thinking." text="Use this page as your index for news, case notes, and helpful articles.">
+    <PageShell label="Blog" title="Gemstone knowledge, certification news, and expert notes." text="Read HGL GEM updates, gemstone education articles, certificate guidance, and practical insights for buying, selling, and evaluating precious stones.">
       <PostGrid posts={posts} navigate={navigate} />
     </PageShell>
   )
