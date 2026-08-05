@@ -3,6 +3,12 @@ import UserRoundCheck from 'lucide-react/dist/esm/icons/user-round-check.mjs'
 import { memberIcons } from '../data/icons'
 import { SectionIntro } from '../components/SectionIntro'
 
+function memberPhoneHref(phone) {
+  const digits = String(phone).replace(/\D/g, '')
+  if (digits.startsWith('0')) return `tel:+98${digits.slice(1)}`
+  return `tel:${digits}`
+}
+
 export function Members({ copy }) {
   return (
     <section className="section-pad">
@@ -20,7 +26,10 @@ export function Members({ copy }) {
               <h3 className="mt-5 text-lg font-semibold text-ink">{member.name}</h3>
               <p className="mt-1 text-sm font-medium text-body">{member.role}</p>
               <p className="mt-3 text-sm leading-6 text-body">{member.text}</p>
-              <p className="mt-4 text-sm font-semibold text-ink">{copy.members.phone}: {member.phone}</p>
+              <p className="mt-4 text-sm font-semibold text-ink">
+                {copy.members.phone}:{' '}
+                <a href={memberPhoneHref(member.phone)} className="hover:text-primary">{member.phone}</a>
+              </p>
             </article>
             )
           })}

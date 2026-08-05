@@ -19,7 +19,7 @@ import { normalizePath } from './utils/routing'
 
 export function App() {
   const { path, navigate } = useRoute()
-  const { locale, routePath } = normalizePath(path)
+  const { locale, routePath, query } = normalizePath(path)
   const copy = content[locale]
   const contacts = contactInfo[locale]
   const { posts } = useWordPressPosts(copy.posts, locale)
@@ -36,12 +36,12 @@ export function App() {
   let page = <NotFoundPage copy={copy} locale={locale} navigate={navigate} />
   if (routePath === '/') page = <HomePage copy={copy} locale={locale} posts={posts} navigate={navigate} />
   if (routePath === '/about') page = <AboutPage copy={copy} />
-  if (routePath === '/contact') page = <ContactPage copy={copy} contacts={contacts} />
+  if (routePath === '/contact') page = <ContactPage copy={copy} contacts={contacts} locale={locale} />
   if (routePath === '/services') page = <ServicesPage copy={copy} />
-  if (routePath === '/blog') page = <BlogPage copy={copy} locale={locale} posts={posts} navigate={navigate} />
-  if (routePath === '/search') page = <SearchPage copy={copy} locale={locale} navigate={navigate} />
+  if (routePath === '/blog') page = <BlogPage copy={copy} locale={locale} posts={posts} query={query} navigate={navigate} />
+  if (routePath === '/search') page = <SearchPage copy={copy} locale={locale} query={query} navigate={navigate} />
   if (certificateMatch) page = <CertificatePage copy={copy} slug={decodeURIComponent(certificateMatch[1])} />
-  if (currentPost) page = <SingleBlogPage copy={copy} locale={locale} post={currentPost} navigate={navigate} />
+  if (currentPost) page = <SingleBlogPage copy={copy} locale={locale} post={currentPost} posts={posts} navigate={navigate} />
 
   return (
     <>

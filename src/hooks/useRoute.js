@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 export function useRoute() {
-  const getPath = useCallback(() => window.location.pathname || '/', [])
+  const getPath = useCallback(() => `${window.location.pathname || '/'}${window.location.search || ''}`, [])
   const [path, setPath] = useState(getPath)
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export function useRoute() {
   }, [getPath])
 
   const navigate = useCallback((href) => {
-    if (href === window.location.pathname) return
+    if (href === `${window.location.pathname}${window.location.search}`) return
     window.history.pushState({}, '', href)
     setPath(href)
     window.scrollTo({ top: 0, behavior: 'instant' })

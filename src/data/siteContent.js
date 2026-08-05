@@ -105,7 +105,7 @@ export const content = {
       title: 'خدمات تخصصی گوهرسنگ، از ارزیابی تا آموزش.',
       pageTitle: 'کارشناسی، خدمات حقوقی و قضایی، آموزش و مشاوره تخصصی.',
       pageText: 'در HGL GEM خدمات کارشناسی و ارزیابی گوهرسنگ ها، صدور گواهی معتبر، گزارش های رسمی برای مراجع قضایی و اداری، دوره های تخصصی گوهرشناسی و مشاوره سرمایه گذاری در بازار گوهرسنگ ها ارائه می شود.',
-      all: 'همه خدمات',
+      all: 'همه',
       items: [
         { title: 'خدمات کارشناسی', text: 'کارشناسی و ارزیابی تخصصی گوهرسنگ ها، ارائه گواهی معتبر شناسایی سنگ های قیمتی و مشاوره در خرید و فروش بر اساس تحلیل کارشناسی.', pill: 'کارشناسی' },
         { title: 'خدمات حقوقی و قضایی', text: 'کارشناسی رسمی دادگستری در حوزه سنگ های قیمتی، طلا و جواهرات، ارائه گزارش های رسمی برای مراجع قضایی و اداری و مشاوره در اختلافات مربوط به اصالت و ارزش گذاری گوهرسنگ ها.', pill: 'حقوقی' },
@@ -115,7 +115,7 @@ export const content = {
     },
     news: {
       label: 'آخرین اخبار',
-      title: 'تازه ترین یادداشت های گوهرشناسی.'
+      title: 'تازه ترین یادداشت های گوهرشناسی'
     },
     aboutPage: {
       label: 'درباره ما',
@@ -277,7 +277,7 @@ export const content = {
       title: 'Gemstone services for confident decisions.',
       pageTitle: 'Expert assessment, legal reporting, training, and consultation.',
       pageText: 'HGL GEM provides practical gemstone services for buyers, sellers, students, and legal or administrative cases where authenticity and value must be documented clearly.',
-      all: 'All services',
+      all: 'All',
       items: [
         { title: 'Expert gemstone assessment', text: 'Specialized evaluation of gemstones, valid identification certificates, and buying or selling guidance based on expert analysis.', pill: 'Assessment' },
         { title: 'Legal and judicial services', text: 'Official court expert assessment for gemstones, gold, and jewellery, including formal reports for judicial and administrative authorities.', pill: 'Legal' },

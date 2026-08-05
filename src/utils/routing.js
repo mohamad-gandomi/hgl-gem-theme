@@ -1,7 +1,9 @@
 export function normalizePath(path) {
-  const locale = path === '/en' || path.startsWith('/en/') ? 'en' : 'fa'
-  const routePath = locale === 'en' ? path.replace(/^\/en/, '') || '/' : path
-  return { locale, routePath }
+  const [cleanPath, query = ''] = path.split('?')
+  const locale = cleanPath === '/en' || cleanPath.startsWith('/en/') ? 'en' : 'fa'
+  const rawRoutePath = locale === 'en' ? cleanPath.replace(/^\/en/, '') || '/' : cleanPath
+  const routePath = rawRoutePath.length > 1 ? rawRoutePath.replace(/\/+$/, '') : rawRoutePath
+  return { locale, routePath, query }
 }
 
 export function localizeHref(href, locale) {
