@@ -1,15 +1,16 @@
 import React from 'react'
 import { brandName, contactInfo } from '../data/siteContent'
+import { assetUrl } from '../utils/assets'
 import { localizeHref } from '../utils/routing'
 
-export function Footer({ copy, contacts, locale, navigate }) {
+export function Footer({ copy, contacts, locale, posts, navigate }) {
   return (
     <footer className="border-t border-hairline bg-canvas">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.1fr_1.7fr_repeat(2,1fr)] lg:px-8">
         <div>
           <div className="flex items-center gap-2 text-ink">
             <span className="grid h-10 w-10 place-items-center rounded-lg bg-ink p-1.5">
-              <img src="/assets/img/hgl-logo.webp" alt="HGL GEM logo" className="h-full w-full object-contain" />
+              <img src={assetUrl('/assets/img/hgl-logo.webp')} alt="HGL GEM logo" className="h-full w-full object-contain" />
             </span>
             <span className="font-semibold">{brandName}</span>
           </div>
@@ -34,7 +35,7 @@ export function Footer({ copy, contacts, locale, navigate }) {
         <div>
           <h3 className="text-sm font-semibold text-ink">{copy.footer.lastPosts}</h3>
           <div className="mt-4 grid gap-3">
-            {copy.posts.slice(0, 3).map((post) => (
+            {posts.slice(0, 3).map((post) => (
               <button key={`footer-${post.slug}`} type="button" onClick={() => navigate(localizeHref(`/blog/${post.slug}`, locale))} className="text-start text-sm leading-6 text-body hover:text-ink">
                 {post.title}
               </button>

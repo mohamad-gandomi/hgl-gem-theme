@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: 'Ravi';
-  src: url('/assets/fonts/Ravi-VF.ttf') format('truetype');
+  src: url('./assets/fonts/Ravi-VF.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -39,12 +39,12 @@ body {
   font-family: 'Ravi', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-[dir="rtl"] h1 {
+[dir="rtl"] .page-title {
   font-size: clamp(1.9rem, 3.5vw, 3rem);
   line-height: 1.55;
 }
 
-[dir="rtl"] h2 {
+[dir="rtl"] .section-title {
   font-size: clamp(1.7rem, 2.8vw, 2.35rem);
   line-height: 1.6;
 }

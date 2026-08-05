@@ -40,7 +40,6 @@ export const content = {
       verifyTitle: 'مشاهده گزارشات',
       verifyText: 'کد شناسنامه درج شده بر روی گزارش را وارد کنید',
       license: 'کد شناسنامه',
-      licensePlaceholder: 'مثال: HGL-000000',
       close: 'بستن',
       menu: 'باز کردن منو',
       readArticle: 'خواندن مقاله',
@@ -178,6 +177,14 @@ export const content = {
       home: 'بازگشت به خانه',
       contact: 'تماس با ما'
     },
+    certificatePage: {
+      label: 'مشاهده گزارش',
+      title: 'مشاهده گزارش گوهرسنگ',
+      text: 'برای باز کردن گزارش، کد شناسنامه درج شده روی گزارش را وارد کنید.',
+      slugLabel: 'شماره گزارش',
+      protectedTitle: 'دسترسی محافظت شده',
+      protectedText: 'پس از تایید کد، فایل PDF گزارش از مسیر امن و موقت باز می شود.'
+    },
     posts: [
       { slug: 'speed-first-launch', title: 'چگونه اصالت گوهرسنگ را با اطمینان بررسی کنیم', date: '۱۴ مرداد ۱۴۰۵', excerpt: 'چند نکته کاربردی برای توجه به گواهی، شناسنامه و بررسی تخصصی سنگ های قیمتی.' },
       { slug: 'editorial-web-layouts', title: 'اهمیت گزارش کارشناسی در اختلافات حقوقی جواهرات', date: '۶ مرداد ۱۴۰۵', excerpt: 'گزارش رسمی و مستند می تواند مسیر تصمیم گیری در پرونده های اداری و قضایی را روشن تر کند.' },
@@ -220,7 +227,6 @@ export const content = {
       verifyTitle: 'Verify Certificates',
       verifyText: 'Enter the licence code printed on the gemstone certificate.',
       license: 'Licence code',
-      licensePlaceholder: 'Example: HGL-000000',
       close: 'Close modal',
       menu: 'Toggle menu',
       readArticle: 'Read article',
@@ -334,6 +340,14 @@ export const content = {
       text: 'The address may have changed, or there may not be a page at this route.',
       home: 'Back to home',
       contact: 'Contact us'
+    },
+    certificatePage: {
+      label: 'Report',
+      title: 'View gemstone report',
+      text: 'Enter the report code printed on the report to open the protected PDF.',
+      slugLabel: 'Report number',
+      protectedTitle: 'Protected report access',
+      protectedText: 'After the code is verified, the PDF opens through a secure temporary link.'
     },
     posts: [
       { slug: 'speed-first-launch', title: 'How to verify gemstone authenticity with confidence', date: 'Aug 4, 2026', excerpt: 'Practical notes on certificates, identification records, and expert gemstone assessment.' },

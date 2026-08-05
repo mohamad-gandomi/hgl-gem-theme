@@ -8,6 +8,7 @@ import Search from 'lucide-react/dist/esm/icons/search.mjs'
 import X from 'lucide-react/dist/esm/icons/x.mjs'
 import { brandName, contactInfo, content } from '../data/siteContent'
 import { navIcons } from '../data/icons'
+import { assetUrl } from '../utils/assets'
 import { alternateHref, localizeHref } from '../utils/routing'
 
 export function Header({ copy, locale, routePath, navigate, onVerify, onSearch }) {
@@ -25,7 +26,7 @@ export function Header({ copy, locale, routePath, navigate, onVerify, onSearch }
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <button type="button" onClick={() => go('/')} className="flex items-center gap-2 text-start text-ink">
           <span className="grid h-10 w-10 place-items-center rounded-lg bg-ink p-1.5">
-            <img src="/assets/img/hgl-logo.webp" alt="HGL GEM logo" className="h-full w-full object-contain" />
+            <img src={assetUrl('/assets/img/hgl-logo.webp')} alt="HGL GEM logo" className="h-full w-full object-contain" />
           </span>
           <span className="text-base font-semibold">{brandName}</span>
         </button>

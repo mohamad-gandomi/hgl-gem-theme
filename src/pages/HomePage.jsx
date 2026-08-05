@@ -7,7 +7,7 @@ import { Members } from '../sections/Members'
 import { ServicesPreview } from '../sections/Services'
 import { WhyUs } from '../sections/WhyUs'
 
-export function HomePage({ copy, locale, navigate }) {
+export function HomePage({ copy, locale, posts, navigate }) {
   return (
     <>
       <Hero copy={copy} locale={locale} navigate={navigate} />
@@ -16,7 +16,7 @@ export function HomePage({ copy, locale, navigate }) {
       <Members copy={copy} />
       <Cta copy={copy} locale={locale} navigate={navigate} />
       <ServicesPreview copy={copy} locale={locale} navigate={navigate} />
-      <LatestNews copy={copy} locale={locale} navigate={navigate} />
+      <LatestNews copy={copy} locale={locale} posts={posts} navigate={navigate} />
     </>
   )
 }

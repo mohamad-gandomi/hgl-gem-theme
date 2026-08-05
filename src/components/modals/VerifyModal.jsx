@@ -1,5 +1,6 @@
 import React from 'react'
 import X from 'lucide-react/dist/esm/icons/x.mjs'
+import { VerifyForm } from '../VerifyForm'
 
 export function VerifyModal({ copy, open, onClose }) {
   if (!open) return null
@@ -17,13 +18,9 @@ export function VerifyModal({ copy, open, onClose }) {
             <X strokeWidth={1.8} className="h-4 w-4" />
           </button>
         </div>
-        <label className="mt-6 block">
-          <span className="text-sm font-medium text-ink">{copy.ui.license}</span>
-          <input className="mt-2 h-11 w-full rounded-lg border border-hairline bg-canvasSoft px-4 text-sm text-ink outline-none focus:border-primary" placeholder={copy.ui.licensePlaceholder} />
-        </label>
-        <button type="button" className="mt-5 inline-flex h-11 w-full items-center justify-center rounded-lg bg-primary px-5 text-sm font-medium text-ink hover:bg-primaryActive">
-          {copy.ui.verify}
-        </button>
+        <div className="mt-6">
+          <VerifyForm copy={copy} />
+        </div>
       </div>
     </div>
   )
