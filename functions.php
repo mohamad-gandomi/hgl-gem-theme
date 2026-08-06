@@ -134,6 +134,170 @@ add_action('add_meta_boxes', [\HGL_GEM\Certificates\Admin\CertificateMetaBox::cl
 add_action('save_post_' . \HGL_GEM\Certificates\PostTypes\CertificatePostType::POST_TYPE, [\HGL_GEM\Certificates\Admin\CertificateMetaBox::class, 'save']);
 add_action('admin_enqueue_scripts', [\HGL_GEM\Certificates\Admin\CertificateMetaBox::class, 'enqueueAssets']);
 add_filter('wp_handle_upload_prefilter', [\HGL_GEM\Certificates\Uploads\PdfUploadRenamer::class, 'rename']);
+add_action('add_meta_boxes_post', 'hgl_gem_register_post_language_meta_box');
+add_action('save_post_post', 'hgl_gem_save_post_language_meta');
+add_action('category_add_form_fields', 'hgl_gem_category_english_label_add_field');
+add_action('category_edit_form_fields', 'hgl_gem_category_english_label_edit_field');
+add_action('created_category', 'hgl_gem_save_category_english_label');
+add_action('edited_category', 'hgl_gem_save_category_english_label');
+add_filter('manage_post_posts_columns', 'hgl_gem_post_language_columns');
+add_action('manage_post_posts_custom_column', 'hgl_gem_render_post_language_columns', 10, 2);
+add_filter('manage_edit-category_columns', 'hgl_gem_category_english_label_columns');
+add_filter('manage_category_custom_column', 'hgl_gem_render_category_english_label_column', 10, 3);
+
+function hgl_gem_register_post_language_meta_box(): void
+{
+    add_meta_box(
+        'hgl-post-language',
+        __('Post Language', 'hgl-gem'),
+        'hgl_gem_render_post_language_meta_box',
+        'post',
+        'side',
+        'default'
+    );
+}
+
+function hgl_gem_render_post_language_meta_box(WP_Post $post): void
+{
+    $language = hgl_gem_content_language((string) get_post_meta($post->ID, '_hgl_content_language', true));
+    $translation_id = absint(get_post_meta($post->ID, '_hgl_translation_post_id', true));
+
+    wp_nonce_field('hgl_gem_post_language', 'hgl_gem_post_language_nonce');
+    ?>
+    <p>
+        <label for="hgl-content-language"><strong><?php esc_html_e('Language', 'hgl-gem'); ?></strong></label>
+        <select id="hgl-content-language" name="hgl_content_language" class="widefat">
+            <option value="fa" <?php selected($language, 'fa'); ?>><?php esc_html_e('Persian', 'hgl-gem'); ?></option>
+            <option value="en" <?php selected($language, 'en'); ?>><?php esc_html_e('English', 'hgl-gem'); ?></option>
+        </select>
+    </p>
+    <p>
+        <label for="hgl-translation-post-id"><strong><?php esc_html_e('Translation post ID', 'hgl-gem'); ?></strong></label>
+        <input id="hgl-translation-post-id" name="hgl_translation_post_id" class="widefat" type="number" min="0" value="<?php echo esc_attr((string) $translation_id); ?>" />
+        <span class="description"><?php esc_html_e('Optional: enter the post ID of the other language version.', 'hgl-gem'); ?></span>
+    </p>
+    <?php
+}
+
+function hgl_gem_save_post_language_meta(int $post_id): void
+{
+    if (!isset($_POST['hgl_gem_post_language_nonce']) || !wp_verify_nonce((string) $_POST['hgl_gem_post_language_nonce'], 'hgl_gem_post_language')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    $language = hgl_gem_content_language(sanitize_key((string) ($_POST['hgl_content_language'] ?? 'fa')));
+    $translation_id = absint($_POST['hgl_translation_post_id'] ?? 0);
+
+    update_post_meta($post_id, '_hgl_content_language', $language);
+
+    if ($translation_id > 0) {
+        update_post_meta($post_id, '_hgl_translation_post_id', $translation_id);
+    } else {
+        delete_post_meta($post_id, '_hgl_translation_post_id');
+    }
+}
+
+function hgl_gem_category_english_label_add_field(): void
+{
+    wp_nonce_field('hgl_gem_category_english_label', 'hgl_gem_category_english_label_nonce');
+    ?>
+    <div class="form-field term-hgl-english-label-wrap">
+        <label for="hgl-category-english-label"><?php esc_html_e('English label', 'hgl-gem'); ?></label>
+        <input id="hgl-category-english-label" name="hgl_category_english_label" type="text" value="" />
+        <p><?php esc_html_e('Used as the category name on the English site.', 'hgl-gem'); ?></p>
+    </div>
+    <?php
+}
+
+function hgl_gem_category_english_label_edit_field(WP_Term $term): void
+{
+    $english_label = (string) get_term_meta($term->term_id, '_hgl_english_label', true);
+
+    wp_nonce_field('hgl_gem_category_english_label', 'hgl_gem_category_english_label_nonce');
+    ?>
+    <tr class="form-field term-hgl-english-label-wrap">
+        <th scope="row"><label for="hgl-category-english-label"><?php esc_html_e('English label', 'hgl-gem'); ?></label></th>
+        <td>
+            <input id="hgl-category-english-label" name="hgl_category_english_label" type="text" value="<?php echo esc_attr($english_label); ?>" class="regular-text" />
+            <p class="description"><?php esc_html_e('Used as the category name on the English site. Persian uses the normal category name.', 'hgl-gem'); ?></p>
+        </td>
+    </tr>
+    <?php
+}
+
+function hgl_gem_save_category_english_label(int $term_id): void
+{
+    if (!isset($_POST['hgl_gem_category_english_label_nonce']) || !wp_verify_nonce((string) $_POST['hgl_gem_category_english_label_nonce'], 'hgl_gem_category_english_label')) {
+        return;
+    }
+
+    if (!current_user_can('manage_categories')) {
+        return;
+    }
+
+    $english_label = hgl_gem_limit_text(sanitize_text_field((string) ($_POST['hgl_category_english_label'] ?? '')), 120);
+
+    if ($english_label !== '') {
+        update_term_meta($term_id, '_hgl_english_label', $english_label);
+    } else {
+        delete_term_meta($term_id, '_hgl_english_label');
+    }
+}
+
+function hgl_gem_content_language(string $language): string
+{
+    return $language === 'en' ? 'en' : 'fa';
+}
+
+function hgl_gem_language_label(string $language): string
+{
+    return hgl_gem_content_language($language) === 'en' ? __('English', 'hgl-gem') : __('Persian', 'hgl-gem');
+}
+
+function hgl_gem_post_language_columns(array $columns): array
+{
+    $columns['hgl_language'] = __('Language', 'hgl-gem');
+    $columns['hgl_translation'] = __('Translation', 'hgl-gem');
+
+    return $columns;
+}
+
+function hgl_gem_render_post_language_columns(string $column, int $post_id): void
+{
+    if ($column === 'hgl_language') {
+        echo esc_html(hgl_gem_language_label((string) get_post_meta($post_id, '_hgl_content_language', true)));
+    }
+
+    if ($column === 'hgl_translation') {
+        $translation_id = absint(get_post_meta($post_id, '_hgl_translation_post_id', true));
+        echo $translation_id > 0 ? esc_html((string) $translation_id) : '&mdash;';
+    }
+}
+
+function hgl_gem_category_english_label_columns(array $columns): array
+{
+    $columns['hgl_english_label'] = __('English label', 'hgl-gem');
+
+    return $columns;
+}
+
+function hgl_gem_render_category_english_label_column(string $content, string $column, int $term_id): string
+{
+    if ($column === 'hgl_english_label') {
+        $english_label = (string) get_term_meta($term_id, '_hgl_english_label', true);
+        return $english_label !== '' ? esc_html($english_label) : '&mdash;';
+    }
+
+    return $content;
+}
 
 function hgl_gem_manifest(): array
 {
@@ -246,6 +410,12 @@ add_action('rest_api_init', function () {
         'methods' => WP_REST_Server::READABLE,
         'permission_callback' => '__return_true',
         'callback' => 'hgl_gem_rest_categories',
+        'args' => [
+            'lang' => [
+                'default' => 'fa',
+                'sanitize_callback' => 'sanitize_key',
+            ],
+        ],
     ]);
 
     register_rest_route('hgl/v1', '/contact', [
@@ -278,6 +448,7 @@ function hgl_gem_rest_posts(WP_REST_Request $request): WP_REST_Response
         'ignore_sticky_posts' => true,
         'no_found_rows' => false,
         's' => $search,
+        'meta_query' => hgl_gem_language_meta_query($locale),
     ];
 
     if ($category !== '') {
@@ -293,12 +464,10 @@ function hgl_gem_rest_posts(WP_REST_Request $request): WP_REST_Response
         $cover_id = get_post_thumbnail_id($post_id);
         $card_image = hgl_gem_image_payload($cover_id, 'hgl_post_card');
         $hero_image = hgl_gem_image_payload($cover_id, 'hgl_post_hero');
-        $categories = array_map(static function (WP_Term $term): array {
-            return [
-                'name' => html_entity_decode($term->name, ENT_QUOTES, get_bloginfo('charset')),
-                'slug' => $term->slug,
-            ];
+        $categories = array_map(static function (WP_Term $term) use ($locale): array {
+            return hgl_gem_category_payload($term, $locale);
         }, get_the_category($post_id));
+        $translation_id = absint(get_post_meta($post_id, '_hgl_translation_post_id', true));
 
         $posts[] = [
             'slug' => sanitize_title($post->post_name),
@@ -310,6 +479,8 @@ function hgl_gem_rest_posts(WP_REST_Request $request): WP_REST_Response
             'coverImage' => $card_image,
             'heroImage' => $hero_image,
             'categories' => $categories,
+            'language' => hgl_gem_content_language((string) get_post_meta($post_id, '_hgl_content_language', true)),
+            'translationId' => $translation_id,
         ];
     }
 
@@ -336,21 +507,77 @@ function hgl_gem_rest_param(WP_REST_Request $request, string $key): string
     return is_scalar($value) ? (string) $value : '';
 }
 
-function hgl_gem_rest_categories(): WP_REST_Response
+function hgl_gem_language_meta_query(string $locale): array
 {
-    $terms = get_categories([
+    if ($locale === 'en') {
+        return [
+            [
+                'key' => '_hgl_content_language',
+                'value' => 'en',
+                'compare' => '=',
+            ],
+        ];
+    }
+
+    return [
+        'relation' => 'OR',
+        [
+            'key' => '_hgl_content_language',
+            'compare' => 'NOT EXISTS',
+        ],
+        [
+            'key' => '_hgl_content_language',
+            'value' => 'en',
+            'compare' => '!=',
+        ],
+    ];
+}
+
+function hgl_gem_rest_categories(WP_REST_Request $request): WP_REST_Response
+{
+    $locale = sanitize_key(hgl_gem_rest_param($request, 'lang')) === 'en' ? 'en' : 'fa';
+    $post_ids = get_posts([
+        'post_type' => 'post',
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'fields' => 'ids',
+        'no_found_rows' => true,
+        'meta_query' => hgl_gem_language_meta_query($locale),
+    ]);
+
+    if (!$post_ids) {
+        return rest_ensure_response([]);
+    }
+
+    $terms = get_terms([
+        'taxonomy' => 'category',
         'hide_empty' => true,
         'orderby' => 'name',
         'order' => 'ASC',
+        'object_ids' => $post_ids,
     ]);
 
-    return rest_ensure_response(array_map(static function (WP_Term $term): array {
-        return [
-            'name' => html_entity_decode($term->name, ENT_QUOTES, get_bloginfo('charset')),
-            'slug' => $term->slug,
-            'count' => (int) $term->count,
-        ];
+    if (is_wp_error($terms)) {
+        return rest_ensure_response([]);
+    }
+
+    return rest_ensure_response(array_map(static function (WP_Term $term) use ($locale): array {
+        return hgl_gem_category_payload($term, $locale);
     }, $terms));
+}
+
+function hgl_gem_category_payload(WP_Term $term, string $locale): array
+{
+    $name = html_entity_decode($term->name, ENT_QUOTES, get_bloginfo('charset'));
+    $english_label = trim((string) get_term_meta($term->term_id, '_hgl_english_label', true));
+
+    return [
+        'name' => $locale === 'en' && $english_label !== '' ? $english_label : $name,
+        'persianName' => $name,
+        'englishName' => $english_label,
+        'slug' => $term->slug,
+        'count' => (int) $term->count,
+    ];
 }
 
 function hgl_gem_rest_contact(WP_REST_Request $request)

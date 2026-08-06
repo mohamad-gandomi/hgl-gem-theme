@@ -96,7 +96,7 @@ export function useWordPressPosts(fallbackPosts, locale, options = {}) {
   return { posts, loading, meta }
 }
 
-export function useWordPressCategories() {
+export function useWordPressCategories(locale) {
   const [categories, setCategories] = useState([])
 
   useEffect(() => {
@@ -104,8 +104,9 @@ export function useWordPressCategories() {
     if (!restUrl) return
 
     const controller = new AbortController()
+    const params = new URLSearchParams({ lang: locale || 'fa' })
 
-    fetch(`${restUrl}categories`, {
+    fetch(`${restUrl}categories?${params.toString()}`, {
       credentials: 'same-origin',
       headers: { Accept: 'application/json' },
       signal: controller.signal
@@ -118,7 +119,7 @@ export function useWordPressCategories() {
       .catch(() => setCategories([]))
 
     return () => controller.abort()
-  }, [])
+  }, [locale])
 
   return categories
 }

@@ -9,7 +9,7 @@ export function BlogPage({ copy, locale, posts: fallbackPosts, query, navigate }
   const page = Math.max(Number(params.get('page') || 1), 1)
   const category = params.get('category') || ''
   const { posts, meta, loading } = useWordPressPosts(fallbackPosts, locale, { perPage: 9, page, category })
-  const categories = useWordPressCategories()
+  const categories = useWordPressCategories(locale)
   const labels = locale === 'fa'
     ? { loading: 'در حال بارگذاری...', previous: 'قبلی', next: 'بعدی' }
     : { loading: 'Loading...', previous: 'Previous', next: 'Next' }
