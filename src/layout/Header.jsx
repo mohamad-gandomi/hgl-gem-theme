@@ -11,7 +11,7 @@ import { navIcons } from '../data/icons'
 import { assetUrl } from '../utils/assets'
 import { alternateHref, localizeHref } from '../utils/routing'
 
-export function Header({ copy, locale, routePath, navigate, onVerify, onSearch }) {
+export function Header({ copy, locale, routePath, query = '', alternateRoutePath, navigate, onVerify, onSearch }) {
   const [open, setOpen] = useState(false)
 
   const go = (href) => {
@@ -19,7 +19,7 @@ export function Header({ copy, locale, routePath, navigate, onVerify, onSearch }
     setOpen(false)
   }
 
-  const languageHref = alternateHref(routePath, copy.altLocale)
+  const languageHref = alternateHref(alternateRoutePath || routePath, copy.altLocale, query)
 
   return (
     <header className="sticky top-0 z-50 border-b border-hairline bg-canvas/95 backdrop-blur">

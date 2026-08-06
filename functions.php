@@ -144,6 +144,7 @@ add_filter('manage_post_posts_columns', 'hgl_gem_post_language_columns');
 add_action('manage_post_posts_custom_column', 'hgl_gem_render_post_language_columns', 10, 2);
 add_filter('manage_edit-category_columns', 'hgl_gem_category_english_label_columns');
 add_filter('manage_category_custom_column', 'hgl_gem_render_category_english_label_column', 10, 3);
+add_action('admin_enqueue_scripts', 'hgl_gem_enqueue_post_language_assets');
 
 function hgl_gem_register_post_language_meta_box(): void
 {
@@ -161,9 +162,20 @@ function hgl_gem_render_post_language_meta_box(WP_Post $post): void
 {
     $language = hgl_gem_content_language((string) get_post_meta($post->ID, '_hgl_content_language', true));
     $translation_id = absint(get_post_meta($post->ID, '_hgl_translation_post_id', true));
+    $translation = $translation_id > 0 ? get_post($translation_id) : null;
+    $post_options = get_posts([
+        'post_type' => 'post',
+        'post_status' => ['publish', 'draft', 'pending', 'private', 'future'],
+        'posts_per_page' => 100,
+        'post__not_in' => [$post->ID],
+        'orderby' => 'date',
+        'order' => 'DESC',
+        'no_found_rows' => true,
+    ]);
 
     wp_nonce_field('hgl_gem_post_language', 'hgl_gem_post_language_nonce');
     ?>
+    <div class="hgl-post-language-fields">
     <p>
         <label for="hgl-content-language"><strong><?php esc_html_e('Language', 'hgl-gem'); ?></strong></label>
         <select id="hgl-content-language" name="hgl_content_language" class="widefat">
@@ -172,11 +184,70 @@ function hgl_gem_render_post_language_meta_box(WP_Post $post): void
         </select>
     </p>
     <p>
-        <label for="hgl-translation-post-id"><strong><?php esc_html_e('Translation post ID', 'hgl-gem'); ?></strong></label>
-        <input id="hgl-translation-post-id" name="hgl_translation_post_id" class="widefat" type="number" min="0" value="<?php echo esc_attr((string) $translation_id); ?>" />
-        <span class="description"><?php esc_html_e('Optional: enter the post ID of the other language version.', 'hgl-gem'); ?></span>
+        <label for="hgl-translation-post-select"><strong><?php esc_html_e('Translation post', 'hgl-gem'); ?></strong></label>
+        <input id="hgl-translation-post-id" name="hgl_translation_post_id" type="hidden" value="<?php echo esc_attr((string) $translation_id); ?>" />
+        <select id="hgl-translation-post-select" class="widefat hgl-select2" data-placeholder="<?php esc_attr_e('Search by title...', 'hgl-gem'); ?>">
+            <option value=""><?php esc_html_e('Choose by title...', 'hgl-gem'); ?></option>
+            <?php foreach ($post_options as $option) : ?>
+                <?php
+                $option_language = hgl_gem_language_label((string) get_post_meta($option->ID, '_hgl_content_language', true));
+                $option_title = html_entity_decode(get_the_title($option), ENT_QUOTES, get_bloginfo('charset'));
+                ?>
+                <option value="<?php echo esc_attr((string) $option->ID); ?>" <?php selected($translation_id, (int) $option->ID); ?>>
+                    <?php echo esc_html(sprintf('#%d - %s - %s', $option->ID, $option_language, $option_title)); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <span class="description"><?php esc_html_e('Search and choose the post in the other language. The reverse link is saved automatically.', 'hgl-gem'); ?></span>
+        <?php if ($translation instanceof WP_Post) : ?>
+            <span class="description hgl-translation-current">
+                <?php
+                printf(
+                    esc_html__('Current: #%1$d - %2$s', 'hgl-gem'),
+                    (int) $translation->ID,
+                    esc_html(get_the_title($translation))
+                );
+                ?>
+            </span>
+        <?php endif; ?>
     </p>
+    </div>
     <?php
+}
+
+function hgl_gem_enqueue_post_language_assets(string $hook_suffix): void
+{
+    if (!in_array($hook_suffix, ['post.php', 'post-new.php'], true)) {
+        return;
+    }
+
+    $screen = get_current_screen();
+    if (!$screen || $screen->post_type !== 'post') {
+        return;
+    }
+
+    wp_enqueue_style(
+        'hgl-gem-select2',
+        get_template_directory_uri() . '/assets/vendor/select2/select2.min.css',
+        [],
+        '4.1.0-rc.0'
+    );
+
+    wp_enqueue_script(
+        'hgl-gem-select2',
+        get_template_directory_uri() . '/assets/vendor/select2/select2.min.js',
+        ['jquery'],
+        '4.1.0-rc.0',
+        true
+    );
+
+    wp_enqueue_script(
+        'hgl-gem-post-language-admin',
+        get_template_directory_uri() . '/assets/admin/post-language.js',
+        ['jquery', 'hgl-gem-select2'],
+        HGL_GEM_THEME_VERSION,
+        true
+    );
 }
 
 function hgl_gem_save_post_language_meta(int $post_id): void
@@ -198,11 +269,75 @@ function hgl_gem_save_post_language_meta(int $post_id): void
 
     update_post_meta($post_id, '_hgl_content_language', $language);
 
-    if ($translation_id > 0) {
+    if ($translation_id > 0 && $translation_id !== $post_id && get_post_type($translation_id) === 'post') {
         update_post_meta($post_id, '_hgl_translation_post_id', $translation_id);
+        update_post_meta($translation_id, '_hgl_translation_post_id', $post_id);
     } else {
         delete_post_meta($post_id, '_hgl_translation_post_id');
     }
+}
+
+add_action('admin_head-post.php', 'hgl_gem_post_language_admin_styles');
+add_action('admin_head-post-new.php', 'hgl_gem_post_language_admin_styles');
+
+function hgl_gem_post_language_admin_styles(): void
+{
+    $screen = get_current_screen();
+    if (!$screen || $screen->post_type !== 'post') {
+        return;
+    }
+    ?>
+    <style>
+        #hgl-post-language .inside {
+            overflow: visible;
+        }
+
+        #hgl-post-language .hgl-post-language-fields,
+        #hgl-post-language .hgl-post-language-fields * {
+            box-sizing: border-box;
+        }
+
+        #hgl-post-language .description {
+            display: block;
+            margin-top: 6px;
+        }
+
+        #hgl-post-language .hgl-translation-current {
+            color: #1d2327;
+        }
+
+        #hgl-post-language .select2-container {
+            max-width: 100%;
+            width: 100% !important;
+        }
+
+        #hgl-post-language .select2-container .select2-selection--single {
+            height: 34px;
+            min-height: 34px;
+        }
+
+        #hgl-post-language .select2-container .select2-selection__rendered {
+            line-height: 32px;
+            overflow: hidden;
+            padding-right: 28px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #hgl-post-language .select2-container .select2-selection__arrow {
+            min-height: 32px;
+        }
+
+        #hgl-post-language .select2-container--default .select2-selection--single .select2-selection__clear {
+            height: 32px;
+            margin-right: 18px;
+        }
+
+        #hgl-post-language .select2-container--open {
+            z-index: 100000;
+        }
+    </style>
+    <?php
 }
 
 function hgl_gem_category_english_label_add_field(): void
@@ -406,6 +541,22 @@ add_action('rest_api_init', function () {
         ],
     ]);
 
+    register_rest_route('hgl/v1', '/posts/(?P<slug>[^/]+)', [
+        'methods' => WP_REST_Server::READABLE,
+        'permission_callback' => '__return_true',
+        'callback' => 'hgl_gem_rest_post',
+        'args' => [
+            'slug' => [
+                'required' => true,
+                'sanitize_callback' => 'sanitize_title',
+            ],
+            'lang' => [
+                'default' => 'fa',
+                'sanitize_callback' => 'sanitize_key',
+            ],
+        ],
+    ]);
+
     register_rest_route('hgl/v1', '/categories', [
         'methods' => WP_REST_Server::READABLE,
         'permission_callback' => '__return_true',
@@ -457,32 +608,9 @@ function hgl_gem_rest_posts(WP_REST_Request $request): WP_REST_Response
 
     $query = new WP_Query($query_args);
 
-    $posts = [];
-
-    foreach ($query->posts as $post) {
-        $post_id = (int) $post->ID;
-        $cover_id = get_post_thumbnail_id($post_id);
-        $card_image = hgl_gem_image_payload($cover_id, 'hgl_post_card');
-        $hero_image = hgl_gem_image_payload($cover_id, 'hgl_post_hero');
-        $categories = array_map(static function (WP_Term $term) use ($locale): array {
-            return hgl_gem_category_payload($term, $locale);
-        }, get_the_category($post_id));
-        $translation_id = absint(get_post_meta($post_id, '_hgl_translation_post_id', true));
-
-        $posts[] = [
-            'slug' => sanitize_title($post->post_name),
-            'title' => html_entity_decode(get_the_title($post_id), ENT_QUOTES, get_bloginfo('charset')),
-            'date' => hgl_gem_post_date($post_id, $locale),
-            'excerpt' => hgl_gem_trim_excerpt($post_id, $locale),
-            'content' => wp_kses_post(apply_filters('the_content', $post->post_content)),
-            'cover' => $card_image['src'],
-            'coverImage' => $card_image,
-            'heroImage' => $hero_image,
-            'categories' => $categories,
-            'language' => hgl_gem_content_language((string) get_post_meta($post_id, '_hgl_content_language', true)),
-            'translationId' => $translation_id,
-        ];
-    }
+    $posts = array_map(static function (WP_Post $post) use ($locale): array {
+        return hgl_gem_post_payload($post, $locale);
+    }, $query->posts);
 
     wp_reset_postdata();
 
@@ -498,6 +626,85 @@ function hgl_gem_rest_posts(WP_REST_Request $request): WP_REST_Response
     $response->header('X-WP-TotalPages', (string) $query->max_num_pages);
 
     return $response;
+}
+
+function hgl_gem_rest_post(WP_REST_Request $request)
+{
+    $slug = sanitize_title(hgl_gem_rest_param($request, 'slug'));
+    $locale = sanitize_key(hgl_gem_rest_param($request, 'lang')) === 'en' ? 'en' : 'fa';
+
+    if ($slug === '') {
+        return new WP_Error('hgl_post_not_found', __('Post not found.', 'hgl-gem'), ['status' => 404]);
+    }
+
+    $query = new WP_Query([
+        'post_type' => 'post',
+        'post_status' => 'publish',
+        'name' => $slug,
+        'posts_per_page' => 1,
+        'no_found_rows' => true,
+        'ignore_sticky_posts' => true,
+        'meta_query' => hgl_gem_language_meta_query($locale),
+    ]);
+
+    if (!$query->have_posts()) {
+        return new WP_Error('hgl_post_not_found', __('Post not found.', 'hgl-gem'), ['status' => 404]);
+    }
+
+    $post = $query->posts[0];
+    wp_reset_postdata();
+
+    return rest_ensure_response(hgl_gem_post_payload($post, $locale));
+}
+
+function hgl_gem_post_payload(WP_Post $post, string $locale): array
+{
+    $post_id = (int) $post->ID;
+    $cover_id = get_post_thumbnail_id($post_id);
+    $card_image = hgl_gem_image_payload($cover_id, 'hgl_post_card');
+    $hero_image = hgl_gem_image_payload($cover_id, 'hgl_post_hero');
+    $categories = array_map(static function (WP_Term $term) use ($locale): array {
+        return hgl_gem_category_payload($term, $locale);
+    }, get_the_category($post_id));
+    $language = hgl_gem_content_language((string) get_post_meta($post_id, '_hgl_content_language', true));
+    $translation_id = absint(get_post_meta($post_id, '_hgl_translation_post_id', true));
+    $translation = hgl_gem_translation_payload($translation_id);
+
+    return [
+        'id' => $post_id,
+        'slug' => sanitize_title($post->post_name),
+        'title' => html_entity_decode(get_the_title($post_id), ENT_QUOTES, get_bloginfo('charset')),
+        'date' => hgl_gem_post_date($post_id, $locale),
+        'excerpt' => hgl_gem_trim_excerpt($post_id, $locale),
+        'content' => wp_kses_post(apply_filters('the_content', $post->post_content)),
+        'cover' => $card_image['src'],
+        'coverImage' => $card_image,
+        'heroImage' => $hero_image,
+        'categories' => $categories,
+        'language' => $language,
+        'translationId' => $translation_id,
+        'translation' => $translation,
+    ];
+}
+
+function hgl_gem_translation_payload(int $translation_id): ?array
+{
+    if ($translation_id <= 0 || get_post_type($translation_id) !== 'post' || get_post_status($translation_id) !== 'publish') {
+        return null;
+    }
+
+    $language = hgl_gem_content_language((string) get_post_meta($translation_id, '_hgl_content_language', true));
+    $slug = get_post_field('post_name', $translation_id);
+
+    if (!$slug) {
+        return null;
+    }
+
+    return [
+        'id' => $translation_id,
+        'slug' => sanitize_title($slug),
+        'language' => $language,
+    ];
 }
 
 function hgl_gem_rest_param(WP_REST_Request $request, string $key): string

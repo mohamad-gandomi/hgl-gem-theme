@@ -11,6 +11,7 @@ export function localizeHref(href, locale) {
   return href === '/' ? '/en' : `/en${href}`
 }
 
-export function alternateHref(routePath, nextLocale) {
-  return nextLocale === 'fa' ? routePath : localizeHref(routePath, 'en')
+export function alternateHref(routePath, nextLocale, query = '') {
+  const suffix = query ? `?${query}` : ''
+  return nextLocale === 'fa' ? `${routePath}${suffix}` : localizeHref(`${routePath}${suffix}`, 'en')
 }

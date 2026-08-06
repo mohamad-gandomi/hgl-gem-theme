@@ -287,7 +287,7 @@ export const content = {
     },
     news: {
       label: 'Last news',
-      title: 'Recent notes from the studio.'
+      title: 'Latest gemstone insights and certification notes.'
     },
     aboutPage: {
       label: 'About us',

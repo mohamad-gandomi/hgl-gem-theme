@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function normalizePost(post) {
   return {
+    id: post.id || null,
     slug: post.slug,
     title: post.title,
     date: post.date,
@@ -10,7 +11,10 @@ function normalizePost(post) {
     cover: post.cover || '',
     coverImage: post.coverImage || null,
     heroImage: post.heroImage || null,
-    categories: post.categories || []
+    categories: post.categories || [],
+    language: post.language || '',
+    translationId: post.translationId || 0,
+    translation: post.translation || null
   }
 }
 
@@ -18,12 +22,10 @@ export function useWordPressPosts(fallbackPosts, locale, options = {}) {
   const [posts, setPosts] = useState(fallbackPosts)
   const [meta, setMeta] = useState({ total: fallbackPosts.length, totalPages: 1, page: 1, perPage: fallbackPosts.length })
   const [loading, setLoading] = useState(false)
-  const requestKeyRef = useRef('')
   const optionKey = JSON.stringify(options)
 
   useEffect(() => {
     if (options.enabled === false) {
-      requestKeyRef.current = ''
       setPosts(fallbackPosts)
       setMeta({ total: fallbackPosts.length, totalPages: 1, page: 1, perPage: fallbackPosts.length })
       setLoading(false)
@@ -32,13 +34,13 @@ export function useWordPressPosts(fallbackPosts, locale, options = {}) {
 
     const restUrl = window.HGL_WP?.restUrl
     if (!restUrl) {
-      requestKeyRef.current = ''
       setPosts(fallbackPosts)
       setMeta({ total: fallbackPosts.length, totalPages: 1, page: 1, perPage: fallbackPosts.length })
       return
     }
 
     const controller = new AbortController()
+    let active = true
     const params = new URLSearchParams({
       lang: locale,
       per_page: String(options.perPage || 8),
@@ -48,15 +50,10 @@ export function useWordPressPosts(fallbackPosts, locale, options = {}) {
     if (options.search) params.set('search', options.search)
     if (options.category) params.set('category', options.category)
 
-    const requestKey = `${restUrl}posts?${params.toString()}`
-
-    if (requestKeyRef.current === requestKey) {
-      return () => controller.abort()
-    }
-
-    requestKeyRef.current = requestKey
+    setPosts([])
     setLoading(true)
-    fetch(requestKey, {
+    fetch(`${restUrl}posts?${params.toString()}`, {
+      cache: 'no-store',
       credentials: 'same-origin',
       headers: { Accept: 'application/json' },
       signal: controller.signal
@@ -66,6 +63,7 @@ export function useWordPressPosts(fallbackPosts, locale, options = {}) {
         return response.json()
       })
       .then((data) => {
+        if (!active) return
         const items = Array.isArray(data) ? data : data.items
 
         if (Array.isArray(items) && items.length) {
@@ -82,18 +80,81 @@ export function useWordPressPosts(fallbackPosts, locale, options = {}) {
         }
       })
       .catch((error) => {
-        if (error.name !== 'AbortError') {
-          requestKeyRef.current = ''
+        if (active && error.name !== 'AbortError') {
           setPosts(fallbackPosts)
           setMeta({ total: fallbackPosts.length, totalPages: 1, page: 1, perPage: fallbackPosts.length })
         }
       })
-      .finally(() => setLoading(false))
+      .finally(() => {
+        if (active) setLoading(false)
+      })
 
-    return () => controller.abort()
+    return () => {
+      active = false
+      controller.abort()
+    }
   }, [fallbackPosts, locale, optionKey])
 
   return { posts, loading, meta }
+}
+
+export function useWordPressPost(slug, locale) {
+  const [post, setPost] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [notFound, setNotFound] = useState(false)
+
+  useEffect(() => {
+    const restUrl = window.HGL_WP?.restUrl
+    const cleanSlug = String(slug || '').trim()
+
+    if (!restUrl || !cleanSlug) {
+      setPost(null)
+      setLoading(false)
+      setNotFound(false)
+      return
+    }
+
+    const controller = new AbortController()
+    let active = true
+    const params = new URLSearchParams({ lang: locale || 'fa' })
+
+    setPost(null)
+    setLoading(true)
+    setNotFound(false)
+    fetch(`${restUrl}posts/${encodeURIComponent(cleanSlug)}?${params.toString()}`, {
+      cache: 'no-store',
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+      signal: controller.signal
+    })
+      .then((response) => {
+        if (response.status === 404) {
+          if (active) setNotFound(true)
+          return null
+        }
+        if (!response.ok) throw new Error('Unable to load post')
+        return response.json()
+      })
+      .then((data) => {
+        if (active) setPost(data ? normalizePost(data) : null)
+      })
+      .catch((error) => {
+        if (active && error.name !== 'AbortError') {
+          setPost(null)
+          setNotFound(true)
+        }
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+
+    return () => {
+      active = false
+      controller.abort()
+    }
+  }, [slug, locale])
+
+  return { post, loading, notFound }
 }
 
 export function useWordPressCategories(locale) {
@@ -104,9 +165,12 @@ export function useWordPressCategories(locale) {
     if (!restUrl) return
 
     const controller = new AbortController()
+    let active = true
     const params = new URLSearchParams({ lang: locale || 'fa' })
 
+    setCategories([])
     fetch(`${restUrl}categories?${params.toString()}`, {
+      cache: 'no-store',
       credentials: 'same-origin',
       headers: { Accept: 'application/json' },
       signal: controller.signal
@@ -115,10 +179,17 @@ export function useWordPressCategories(locale) {
         if (!response.ok) throw new Error('Unable to load categories')
         return response.json()
       })
-      .then((data) => setCategories(Array.isArray(data) ? data : []))
-      .catch(() => setCategories([]))
+      .then((data) => {
+        if (active) setCategories(Array.isArray(data) ? data : [])
+      })
+      .catch(() => {
+        if (active) setCategories([])
+      })
 
-    return () => controller.abort()
+    return () => {
+      active = false
+      controller.abort()
+    }
   }, [locale])
 
   return categories
