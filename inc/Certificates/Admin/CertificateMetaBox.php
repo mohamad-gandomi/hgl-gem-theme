@@ -38,6 +38,7 @@ final class CertificateMetaBox
         $pdf_path = CertificatePdfFile::storedPath((string) get_post_meta($post->ID, CertificatePostType::META_PDF_PATH, true));
         $slug = sanitize_title($post->post_name);
         $qr_path = $slug !== '' ? '/licence/' . $slug . '/' : '';
+        $qr_url = $qr_path !== '' ? home_url($qr_path) : '';
 
         wp_nonce_field(self::NONCE_ACTION, self::NONCE_NAME);
         ?>
@@ -58,16 +59,16 @@ final class CertificateMetaBox
                 <button type="button" class="button" data-hgl-select-certificate-pdf><?php esc_html_e('Choose PDF', 'hgl-gem'); ?></button>
                 <button type="button" class="button" data-hgl-remove-certificate-pdf><?php esc_html_e('Remove PDF', 'hgl-gem'); ?></button>
             </p>
-            <div class="hgl-certificate-qr" style="display:flex;align-items:flex-start;gap:16px;margin-top:18px;padding:14px;border:1px solid #dcdcde;background:#fff;border-radius:6px;" data-hgl-certificate-qr="<?php echo esc_attr($qr_path); ?>" data-hgl-certificate-title="<?php echo esc_attr($slug !== '' ? $slug : 'certificate-qr'); ?>">
+            <div class="hgl-certificate-qr" style="display:flex;align-items:flex-start;gap:16px;margin-top:18px;padding:14px;border:1px solid #dcdcde;background:#fff;border-radius:6px;" data-hgl-certificate-qr="<?php echo esc_attr($qr_url); ?>" data-hgl-certificate-title="<?php echo esc_attr($slug !== '' ? $slug : 'certificate-qr'); ?>">
                 <?php if ($qr_path !== '') : ?>
                     <div class="hgl-certificate-qr__preview" style="flex:0 0 auto;" data-hgl-certificate-qr-preview></div>
                     <div style="min-width:0;flex:1;">
                         <p style="margin:0 0 8px;"><strong><?php esc_html_e('Report QR Code', 'hgl-gem'); ?></strong></p>
-                        <input class="widefat" type="text" value="<?php echo esc_attr($qr_path); ?>" readonly>
+                        <input class="widefat" type="text" value="<?php echo esc_attr($qr_url); ?>" readonly>
                         <p style="margin:10px 0 0;">
                             <button type="button" class="button button-primary" data-hgl-download-certificate-qr><?php esc_html_e('Download QR Code', 'hgl-gem'); ?></button>
                         </p>
-                        <p class="description" style="margin-top:8px;"><?php esc_html_e('Relative report URL. Regenerate/download it after moving to production if your QR scanner requires a full domain URL.', 'hgl-gem'); ?></p>
+                        <p class="description" style="margin-top:8px;"><?php esc_html_e('Full report URL used by the QR code. Regenerate/download after the production domain is configured.', 'hgl-gem'); ?></p>
                     </div>
                 <?php else : ?>
                     <p class="description"><?php esc_html_e('Save this certificate first to generate its QR code from the final slug.', 'hgl-gem'); ?></p>

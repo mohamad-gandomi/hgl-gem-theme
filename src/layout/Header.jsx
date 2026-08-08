@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Globe2 from 'lucide-react/dist/esm/icons/globe-2.mjs'
 import MapPin from 'lucide-react/dist/esm/icons/map-pin.mjs'
 import Clock from 'lucide-react/dist/esm/icons/clock.mjs'
@@ -13,6 +13,19 @@ import { alternateHref, localizeHref } from '../utils/routing'
 
 export function Header({ copy, locale, routePath, query = '', alternateRoutePath, navigate, onVerify, onSearch }) {
   const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    if (!open) {
+      return undefined
+    }
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [open])
 
   const go = (href) => {
     navigate(localizeHref(href, locale))
@@ -69,7 +82,7 @@ export function Header({ copy, locale, routePath, query = '', alternateRoutePath
         </div>
       </nav>
       {open && (
-        <div className="fixed inset-x-0 top-16 h-[calc(100dvh-4rem)] overflow-y-auto border-t border-hairline bg-canvas md:hidden">
+        <div className="absolute inset-x-0 top-16 h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-hairline bg-canvas md:hidden">
           <div className="mx-auto flex min-h-full max-w-7xl flex-col px-4 py-5">
             <div className="grid gap-3">
               {copy.nav.map((item) => {

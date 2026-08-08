@@ -11,9 +11,9 @@ export function PostGrid({ copy, locale, posts, navigate }) {
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid min-w-0 gap-4 md:grid-cols-3">
       {posts.map((post) => (
-        <article key={post.slug} className="feature-card flex h-full flex-col">
+        <article key={post.slug} className="feature-card flex h-full min-w-0 flex-col">
           {post.coverImage?.src || post.cover ? (
             <img
               src={post.coverImage?.src || post.cover}
@@ -31,7 +31,7 @@ export function PostGrid({ copy, locale, posts, navigate }) {
           )}
           <p className="mt-5 text-xs font-semibold uppercase tracking-[0.08em] text-muted">{post.date}</p>
           {post.categories?.length > 0 && <p className="mt-2 text-xs font-medium text-primary">{post.categories[0].name}</p>}
-          <h3 className="mt-3 truncate text-xl font-normal text-ink">{post.title}</h3>
+          <h3 className="mt-3 min-w-0 truncate text-xl font-normal text-ink">{post.title}</h3>
           <p className="mt-3 text-sm leading-6 text-body">{post.excerpt}</p>
           <button type="button" onClick={() => navigate(localizeHref(`/blog/${post.slug}`, locale))} className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-medium text-ink hover:text-primary">
             {copy.ui.readArticle} <ArrowRight strokeWidth={1.8} className="direction-arrow h-4 w-4" />
