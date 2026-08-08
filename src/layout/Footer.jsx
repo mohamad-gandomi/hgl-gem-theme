@@ -10,7 +10,7 @@ export function Footer({ copy, contacts, locale, posts, navigate }) {
         <div>
           <div className="flex items-center gap-2 text-ink">
             <span className="grid h-10 w-10 place-items-center rounded-lg bg-ink p-1.5">
-              <img src={assetUrl('/assets/img/hgl-logo.webp')} alt="HGL GEM logo" className="h-full w-full object-contain" />
+              <img src={assetUrl('/assets/img/hgl-logo-mark.webp')} alt="HGL GEM logo" width="80" height="67" className="h-full w-full object-contain" loading="lazy" decoding="async" />
             </span>
             <span className="font-semibold">{brandName}</span>
           </div>

@@ -23,7 +23,9 @@ export function App() {
   const { locale, routePath, query } = normalizePath(path)
   const copy = content[locale]
   const contacts = contactInfo[locale]
-  const { posts } = useWordPressPosts(copy.posts, locale)
+  const [hasLoadedHomePosts, setHasLoadedHomePosts] = useState(false)
+  const shouldDeferHomePosts = routePath === '/' && !hasLoadedHomePosts
+  const { posts, loading: postsLoading } = useWordPressPosts(copy.posts, locale, { deferMs: shouldDeferHomePosts ? 3500 : 0 })
   const postMatch = routePath.match(/^\/blog\/([^/]+)\/?$/)
   const postSlug = postMatch ? decodeURIComponent(postMatch[1]) : ''
   const singlePost = useWordPressPost(postSlug, locale)
@@ -46,8 +48,14 @@ export function App() {
     document.documentElement.dir = locale === 'fa' ? 'rtl' : 'ltr'
   }, [locale])
 
+  useEffect(() => {
+    if (routePath === '/' && postsLoading) {
+      setHasLoadedHomePosts(true)
+    }
+  }, [postsLoading, routePath])
+
   let page = <NotFoundPage copy={copy} locale={locale} navigate={navigate} />
-  if (routePath === '/') page = <HomePage copy={copy} locale={locale} posts={posts} navigate={navigate} />
+  if (routePath === '/') page = <HomePage copy={copy} locale={locale} posts={posts} postsLoading={postsLoading} navigate={navigate} />
   if (routePath === '/about') page = <AboutPage copy={copy} />
   if (routePath === '/contact') page = <ContactPage copy={copy} contacts={contacts} locale={locale} />
   if (routePath === '/services') page = <ServicesPage copy={copy} />

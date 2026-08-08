@@ -13,7 +13,7 @@ The theme also includes a secure certificate verification backend:
 - The public React modal posts to `/wp-json/hgl/v1/certificates/verify`.
 - Verified requests receive a one-use PDF download URL that expires after 5 minutes.
 - Legacy printed QR links like `/licence/2026-1572/` open a certificate verification page when the certificate post slug is `2026-1572`.
-- The Certificate admin screen shows a local QR code for `/licence/{slug}/` and includes a PNG download button for placing the QR on PDFs.
+- The Certificate admin screen shows a QR code for the full site URL at `/licence/{slug}/` and includes a PNG download button for placing the QR on PDFs.
 
 ## Development
 
@@ -38,7 +38,7 @@ npm run theme:zip
 
 This creates:
 
-`theme-package/hgl-gem.zip`
+`theme-package/hb-hgl-gem.zip`
 
 Upload that zip in WordPress admin:
 
@@ -52,6 +52,7 @@ Upload this folder as a theme, or copy it to:
 
 Required files for production:
 
+- `.htaccess` when running on Apache with overrides enabled
 - `dist/`
 - `functions.php`
 - `inc/`
@@ -59,6 +60,18 @@ Required files for production:
 - `style.css`
 - `index.php`
 - template fallback files
+
+## Project Structure
+
+- `functions.php` is the bootstrap and hook map.
+- `inc/Theme/` handles WordPress setup, output cleanup, React asset loading, and app rewrites.
+- `inc/Blog/` handles blog language metadata, admin translation/category fields, and public blog REST endpoints.
+- `inc/Contact/` handles contact-message storage and the public contact REST endpoint.
+- `inc/Certificates/` handles certificate records, protected PDF paths, verification, download tokens, admin fields, and QR support.
+- `inc/Support/` contains small shared helpers.
+- `src/` contains the React app.
+
+The included `.htaccess` sets long-lived cache headers for static theme assets on Apache hosts. For Nginx or CDN deployments, configure equivalent `Cache-Control: public, max-age=31536000, immutable` headers for theme CSS, JS, fonts, and images.
 
 Create and publish normal WordPress Posts in the admin. They will appear on the Blog, Latest News, footer post links, and single blog routes.
 
@@ -76,11 +89,11 @@ The QR page no longer redirects directly to the raw uploaded PDF. It asks for th
 
 Each saved Certificate edit screen includes a QR preview and download button. If the QR is not visible yet, save the Certificate first so WordPress creates the final slug.
 
-The QR field uses a relative URL such as:
+The QR field uses the current WordPress site URL, for example:
 
-`/licence/2026-1572/`
+`https://hgl-gem.com/licence/2026-1572/`
 
-This avoids localhost/domain problems while moving between development and production. For printed QR codes, generate/download the final QR after the production domain is configured if your scanner or print workflow requires a full absolute URL.
+For printed QR codes, generate/download the final QR after the production domain is configured.
 
 ## Protect Direct PDF URLs
 

@@ -92,9 +92,15 @@ final class CertificateRestController
             return new \WP_Error('hgl_certificate_missing_pdf', __('This PDF is not available.', 'hgl-gem'), ['status' => 404]);
         }
 
+        $filename = sanitize_file_name(basename($path));
+        if ($filename === '') {
+            $filename = 'certificate.pdf';
+        }
+
         nocache_headers();
         header('Content-Type: application/pdf');
-        header('Content-Disposition: inline; filename="' . basename($path) . '"');
+        header('X-Content-Type-Options: nosniff');
+        header('Content-Disposition: inline; filename="' . $filename . '"');
         header('Content-Length: ' . (string) filesize($path));
         readfile($path);
         exit;

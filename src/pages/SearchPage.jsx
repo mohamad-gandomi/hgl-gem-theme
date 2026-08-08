@@ -63,7 +63,7 @@ export function SearchPage({ copy, locale, query, navigate }) {
         ) : (
           <div className="mt-5">
             {posts.length > 0 ? (
-              <PostGrid copy={copy} locale={locale} posts={posts} navigate={navigate} />
+              <PostGrid copy={copy} locale={locale} posts={posts} navigate={navigate} loading={loading} skeletonCount={8} />
             ) : (
               !loading && <div className="rounded-xl border border-hairline bg-canvasSoft p-6 text-sm leading-6 text-body">{copy.searchPage?.empty || labels.noResults}</div>
             )}

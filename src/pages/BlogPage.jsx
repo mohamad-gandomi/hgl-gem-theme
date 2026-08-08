@@ -37,7 +37,7 @@ export function BlogPage({ copy, locale, posts: fallbackPosts, query, navigate }
         </div>
       )}
       {loading && <p className="mb-4 text-sm text-body">{copy.searchPage.loading || labels.loading}</p>}
-      <PostGrid copy={copy} locale={locale} posts={posts} navigate={navigate} />
+      <PostGrid copy={copy} locale={locale} posts={posts} navigate={navigate} loading={loading} skeletonCount={9} />
       {meta.totalPages > 1 && (
         <div className="mt-8 flex items-center justify-between gap-3">
           <button type="button" disabled={page <= 1} onClick={() => goTo(page - 1)} className="rounded-lg border border-hairlineStrong bg-surface px-4 py-2 text-sm font-medium text-ink disabled:cursor-not-allowed disabled:opacity-40">

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-theme_slug="${1:-hgl-gem}"
+theme_slug="${1:-hb-hgl-gem}"
 script_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 root="$(CDPATH= cd -- "$script_dir/.." && pwd)"
 package_root="$root/theme-package"
@@ -12,6 +12,7 @@ rm -rf "$stage_root"
 mkdir -p "$stage_root"
 
 for file in \
+  .htaccess \
   style.css \
   functions.php \
   index.php \

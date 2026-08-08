@@ -1,5 +1,5 @@
 param(
-  [string]$ThemeSlug = "hgl-gem"
+  [string]$ThemeSlug = "hb-hgl-gem"
 )
 
 $ErrorActionPreference = "Stop"
@@ -16,6 +16,7 @@ if (Test-Path $stageRoot) {
 New-Item -ItemType Directory -Force -Path $stageRoot | Out-Null
 
 $files = @(
+  ".htaccess",
   "style.css",
   "functions.php",
   "index.php",

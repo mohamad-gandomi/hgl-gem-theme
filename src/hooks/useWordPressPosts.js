@@ -40,57 +40,66 @@ export function useWordPressPosts(fallbackPosts, locale, options = {}) {
     }
 
     const controller = new AbortController()
+    let timer = null
     let active = true
-    const params = new URLSearchParams({
-      lang: locale,
-      per_page: String(options.perPage || 8),
-      page: String(options.page || 1)
-    })
+    const load = () => {
+      const params = new URLSearchParams({
+        lang: locale,
+        per_page: String(options.perPage || 8),
+        page: String(options.page || 1)
+      })
 
-    if (options.search) params.set('search', options.search)
-    if (options.category) params.set('category', options.category)
+      if (options.search) params.set('search', options.search)
+      if (options.category) params.set('category', options.category)
 
-    setPosts([])
-    setLoading(true)
-    fetch(`${restUrl}posts?${params.toString()}`, {
-      cache: 'no-store',
-      credentials: 'same-origin',
-      headers: { Accept: 'application/json' },
-      signal: controller.signal
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error('Unable to load posts')
-        return response.json()
+      setLoading(true)
+      fetch(`${restUrl}posts?${params.toString()}`, {
+        cache: 'no-store',
+        credentials: 'same-origin',
+        headers: { Accept: 'application/json' },
+        signal: controller.signal
       })
-      .then((data) => {
-        if (!active) return
-        const items = Array.isArray(data) ? data : data.items
+        .then((response) => {
+          if (!response.ok) throw new Error('Unable to load posts')
+          return response.json()
+        })
+        .then((data) => {
+          if (!active) return
+          const items = Array.isArray(data) ? data : data.items
 
-        if (Array.isArray(items) && items.length) {
-          setPosts(items.map(normalizePost))
-          setMeta({
-            total: data.total || items.length,
-            totalPages: data.totalPages || 1,
-            page: data.page || options.page || 1,
-            perPage: data.perPage || options.perPage || items.length
-          })
-        } else {
-          setPosts([])
-          setMeta({ total: data.total || 0, totalPages: data.totalPages || 1, page: data.page || options.page || 1, perPage: data.perPage || options.perPage || 8 })
-        }
-      })
-      .catch((error) => {
-        if (active && error.name !== 'AbortError') {
-          setPosts(fallbackPosts)
-          setMeta({ total: fallbackPosts.length, totalPages: 1, page: 1, perPage: fallbackPosts.length })
-        }
-      })
-      .finally(() => {
-        if (active) setLoading(false)
-      })
+          if (Array.isArray(items) && items.length) {
+            setPosts(items.map(normalizePost))
+            setMeta({
+              total: data.total || items.length,
+              totalPages: data.totalPages || 1,
+              page: data.page || options.page || 1,
+              perPage: data.perPage || options.perPage || items.length
+            })
+          } else {
+            setPosts([])
+            setMeta({ total: data.total || 0, totalPages: data.totalPages || 1, page: data.page || options.page || 1, perPage: options.perPage || 8 })
+          }
+        })
+        .catch((error) => {
+          if (active && error.name !== 'AbortError') {
+            setPosts(fallbackPosts)
+            setMeta({ total: fallbackPosts.length, totalPages: 1, page: 1, perPage: fallbackPosts.length })
+          }
+        })
+        .finally(() => {
+          if (active) setLoading(false)
+        })
+    }
+
+    if (options.deferMs > 0) {
+      timer = window.setTimeout(load, options.deferMs)
+    } else {
+      load()
+    }
 
     return () => {
       active = false
+      if (timer) window.clearTimeout(timer)
       controller.abort()
     }
   }, [fallbackPosts, locale, optionKey])
