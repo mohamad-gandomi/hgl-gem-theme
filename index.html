@@ -8,6 +8,13 @@
       content="HGL GEM ارائه دهنده گواهی اصالت، کارشناسی تخصصی، خدمات حقوقی، آموزش و مشاوره گوهرسنگ."
     />
     <title>HGL GEM</title>
+    <script>
+      (function () {
+        var isEnglish = window.location.pathname === '/en' || window.location.pathname.indexOf('/en/') === 0
+        document.documentElement.lang = isEnglish ? 'en' : 'fa'
+        document.documentElement.dir = isEnglish ? 'ltr' : 'rtl'
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

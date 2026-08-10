@@ -41,12 +41,12 @@ body {
 }
 
 [dir="rtl"] .page-title {
-  font-size: clamp(2.15rem, 4vw, 3.35rem);
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
   line-height: 1.5;
 }
 
 [dir="rtl"] .section-title {
-  font-size: clamp(1.9rem, 3.15vw, 2.65rem);
+  font-size: clamp(1.45rem, 2.4vw, 1.95rem);
   line-height: 1.55;
 }
 
@@ -193,6 +193,37 @@ button {
 }
 
 @media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+
+  [dir="rtl"] {
+    font-size: 14px;
+  }
+
+  [dir="rtl"] .page-title {
+    font-size: clamp(1.45rem, 7vw, 1.9rem);
+    line-height: 1.55;
+  }
+
+  [dir="rtl"] .section-title {
+    font-size: clamp(1.25rem, 6vw, 1.65rem);
+    line-height: 1.65;
+  }
+
+  [dir="rtl"] .badge,
+  [dir="rtl"] .timeline-pill {
+    font-size: 11px;
+  }
+
+  [dir="rtl"] .prose-copy {
+    font-size: 14px;
+  }
+
+  [dir="rtl"] .prose-copy h2 {
+    font-size: 1.25rem;
+  }
+
   .section-pad {
     padding-block: 56px;
   }

@@ -13,8 +13,7 @@ final class AppAssets
 {
     public static function printHeadTags(): void
     {
-        $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
-        $is_english = is_string($path) && (trim($path, '/') === 'en' || str_starts_with(trim($path, '/'), 'en/'));
+        $is_english = self::isEnglishRequest();
         $description = $is_english
             ? 'HGL GEM provides gemstone authenticity certificates, expert assessment, legal reporting, gemology training, and certificate verification.'
             : 'HGL GEM ارائه دهنده گواهی اصالت گوهرسنگ، کارشناسی تخصصی، گزارش حقوقی، آموزش گوهرشناسی و استعلام گزارش است.';
@@ -32,6 +31,15 @@ final class AppAssets
             <link rel="preload" as="font" type="font/ttf" href="<?php echo esc_url(HGL_GEM_DIST_URI . '/assets/Ravi-VF-xTtXQV-q.ttf'); ?>" crossorigin>
         <?php endif; ?>
         <?php
+    }
+
+    public static function languageAttributes(string $output): string
+    {
+        if (is_admin()) {
+            return $output;
+        }
+
+        return self::isEnglishRequest() ? 'lang="en-US" dir="ltr"' : 'lang="fa-IR" dir="rtl"';
     }
 
     public static function enqueue(): void
@@ -107,5 +115,13 @@ final class AppAssets
     private static function assetUri(string $path): string
     {
         return HGL_GEM_DIST_URI . '/' . ltrim($path, '/');
+    }
+
+    private static function isEnglishRequest(): bool
+    {
+        $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+        $trimmed = is_string($path) ? trim($path, '/') : '';
+
+        return $trimmed === 'en' || str_starts_with($trimmed, 'en/');
     }
 }

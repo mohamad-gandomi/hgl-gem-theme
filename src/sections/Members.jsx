@@ -9,7 +9,15 @@ function memberPhoneHref(phone) {
   return `tel:${digits}`
 }
 
-export function Members({ copy }) {
+function memberPhoneLabel(phone, locale) {
+  if (locale !== 'en') return phone
+
+  const digits = String(phone).replace(/\D/g, '')
+  if (digits.startsWith('0')) return `0098 ${digits.slice(1, 4)} ${digits.slice(4)}`
+  return `0098 ${digits}`
+}
+
+export function Members({ copy, locale }) {
   return (
     <section className="section-pad">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -26,9 +34,9 @@ export function Members({ copy }) {
               <h3 className="mt-5 text-lg font-semibold text-ink">{member.name}</h3>
               <p className="mt-1 text-sm font-medium text-body">{member.role}</p>
               <p className="mt-3 text-sm leading-6 text-body">{member.text}</p>
-              <p className="mt-4 text-sm font-semibold text-ink">
+              <p className="mt-5 text-sm font-medium text-body">
                 {copy.members.phone}:{' '}
-                <a href={memberPhoneHref(member.phone)} className="hover:text-primary">{member.phone}</a>
+                <a href={memberPhoneHref(member.phone)} className="text-xl font-semibold text-ink hover:text-primary">{memberPhoneLabel(member.phone, locale)}</a>
               </p>
             </article>
             )

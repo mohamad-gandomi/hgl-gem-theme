@@ -59,6 +59,7 @@ add_action('after_switch_theme', static function (): void {
 
 add_action('wp_enqueue_scripts', [\HGL_GEM\Theme\AppAssets::class, 'enqueue']);
 add_action('wp_head', [\HGL_GEM\Theme\AppAssets::class, 'printHeadTags'], 1);
+add_filter('language_attributes', [\HGL_GEM\Theme\AppAssets::class, 'languageAttributes']);
 add_filter('script_loader_tag', [\HGL_GEM\Theme\AppAssets::class, 'moduleScriptTag'], 10, 3);
 
 add_action('rest_api_init', function (): void {

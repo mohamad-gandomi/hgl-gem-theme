@@ -108,14 +108,14 @@ export const content = {
     cta: {
       label: 'درخواست مشاوره',
       title: 'برای دریافت نظر کارشناسی آماده‌اید؟',
-      text: 'برای صدور گواهی اصالت، کارشناسی رسمی، گزارش حقوقی، اطلاعات دوره های آموزشی یا مشاوره پیش از خرید و فروش سنگ های قیمتی با HGL GEM تماس بگیرید.',
-      button: 'تماس با HGL GEM'
+      text: 'برای صدور گواهی اصالت، کارشناسی رسمی، گزارش حقوقی، اطلاعات دوره های آموزشی یا مشاوره پیش از خرید و فروش سنگ های قیمتی با ما تماس بگیرید.',
+      button: 'تماس با ما'
     },
     services: {
       label: 'خدمات',
-      title: 'خدمات تخصصی گوهرسنگ، از ارزیابی تا آموزش.',
-      pageTitle: 'کارشناسی، خدمات حقوقی و قضایی، آموزش و مشاوره تخصصی.',
-      pageText: 'در HGL GEM خدمات کارشناسی و ارزیابی گوهرسنگ ها، صدور گواهی معتبر، گزارش های رسمی برای مراجع قضایی و اداری، دوره های تخصصی گوهرشناسی و مشاوره سرمایه گذاری در بازار گوهرسنگ ها ارائه می شود.',
+      title: 'خدمات تخصصی گوهرسنگ',
+      pageTitle: 'کارشناسی، حقوقی، آموزش و مشاوره',
+      pageText: 'خدمات کارشناسی و ارزیابی گوهرسنگ ها، صدور گواهی معتبر، گزارش های رسمی برای مراجع قضایی و اداری، دوره های تخصصی گوهرشناسی و مشاوره سرمایه گذاری در بازار گوهرسنگ ها ارائه می شود.',
       all: 'همه',
       items: [
         { title: 'خدمات کارشناسی', text: 'کارشناسی و ارزیابی تخصصی گوهرسنگ ها، ارائه گواهی معتبر شناسایی سنگ های قیمتی و مشاوره در خرید و فروش بر اساس تحلیل کارشناسی.', pill: 'کارشناسی' },
@@ -151,8 +151,8 @@ export const content = {
     },
     contactPage: {
       label: 'تماس با ما',
-      title: 'درخواست صدور گواهی یا مشاوره کارشناسی.',
-      text: 'برای صدور گواهی، کارشناسی رسمی، گزارش حقوقی، آموزش گوهرشناسی یا مشاوره پیش از خرید و فروش سنگ های قیمتی با HGL GEM تماس بگیرید.',
+      title: 'درخواست گواهی یا مشاوره',
+      text: 'برای صدور گواهی، کارشناسی رسمی، گزارش حقوقی، آموزش گوهرشناسی یا مشاوره پیش از خرید و فروش سنگ های قیمتی با ما تماس بگیرید.',
       infoTitle: 'اطلاعات تماس',
       name: 'نام',
       namePlaceholder: 'نام شما',
@@ -166,12 +166,12 @@ export const content = {
     },
     blogPage: {
       label: 'بلاگ',
-      title: 'دانش گوهرسنگ، اخبار گواهی و یادداشت های کارشناسی.',
-      text: 'به روزرسانی های HGL GEM، مقاله های آموزشی گوهرشناسی، راهنمای گواهی اصالت و نکات کاربردی برای خرید، فروش و ارزیابی سنگ های قیمتی را بخوانید.'
+      title: 'دانش و اخبار گوهرسنگ',
+      text: 'به روزرسانی ها، مقاله های آموزشی گوهرشناسی، راهنمای گواهی اصالت و نکات کاربردی برای خرید، فروش و ارزیابی سنگ های قیمتی را بخوانید.'
     },
     searchPage: {
       label: 'جستجو',
-      title: 'جستجو در گواهی ها، خدمات و مطالب HGL GEM.',
+      title: 'جستجو در سایت',
       text: 'برای جستجوی گواهی ها، خدمات تخصصی، دوره های آموزشی و مطالب گوهرشناسی عبارت مورد نظر خود را وارد کنید.',
       field: 'عبارت جستجو',
       placeholder: 'مثلا گواهی اصالت، الماس، آموزش یا مشاوره',
@@ -183,7 +183,7 @@ export const content = {
     },
     notFoundPage: {
       label: '۴۰۴',
-      title: 'صفحه مورد نظر پیدا نشد.',
+      title: 'صفحه پیدا نشد',
       text: 'ممکن است آدرس تغییر کرده باشد یا صفحه ای با این مسیر وجود نداشته باشد.',
       home: 'بازگشت به خانه',
       contact: 'تماس با ما'
@@ -230,7 +230,7 @@ export const content = {
     ],
     ui: {
       search: 'Search',
-      searchTitle: 'Search HGL GEM',
+      searchTitle: 'Search the site',
       searchText: 'Search certificates, services, news, and gemstone information.',
       searchTerm: 'Search term',
       searchPlaceholder: 'Type what you want to find',
@@ -248,13 +248,13 @@ export const content = {
       label: 'Gemstone certification',
       title: 'Issuance of Authenticity Certificates',
       text: "Issuing authenticity certificates for precious gemstones, which can be verified and tracked through this website. Our expert team uses advanced equipment to assess each stone's authenticity and quality, ensuring confidence in buying and selling these valuable gems.",
-      about: 'About HGL GEM',
+      about: 'About us',
       contact: 'Contact us'
     },
     why: {
       label: 'Why us',
       title: 'Trusted gemstone expertise, documented clearly',
-      text: 'HGL GEM combines long-running gemology research, certified expert assessment, and certificate services that support confident buying, selling, and learning.',
+      text: 'Long-running gemology research, certified expert assessment, and certificate services support confident buying, selling, and learning.',
       points: [
         { title: 'Over 20 years of experience', text: 'Our research and specialist work in the field of gemstones began in 1999.' },
         { title: 'Official court-certified expert', text: 'Member of the Association of Official Court Experts in gold, jewellery, and gemstones.' },
@@ -264,14 +264,14 @@ export const content = {
     },
     aboutPreview: {
       label: 'About us',
-      title: 'Two decades of gemstone research, certification, and training.',
-      text: 'Our work began in 1999 as a university research project at Ferdowsi University of Mashhad. Today, HGL GEM combines official expert assessment, advanced gemological equipment, and practical education for buyers, sellers, and students of precious stones.',
+      title: 'Gemstone research and certification',
+      text: 'Our work began in 1999 as a university research project at Ferdowsi University of Mashhad. Today, official expert assessment, advanced gemological equipment, and practical education support buyers, sellers, and students of precious stones.',
       button: 'Read about us'
     },
     licenses: {
       label: 'Customer certificates',
-      title: 'A finished report customers can keep with confidence.',
-      text: 'After specialist assessment, HGL GEM delivers a printed identification report, branded folder, and protective card so the gemstone details, report code, and verification path stay clear after handover.',
+      title: 'Customer-ready reports',
+      text: 'After specialist assessment, customers receive a printed identification report, branded folder, and protective card so the gemstone details, report code, and verification path stay clear after handover.',
       points: [
         'Identification report with technical details, stone image, and dedicated HGL number',
         'Trackable code and QR path for checking report authenticity through the website',
@@ -280,7 +280,7 @@ export const content = {
     },
     members: {
       label: 'Members',
-      title: 'The expert team behind HGL GEM.',
+      title: 'Expert team',
       phone: 'Phone',
       items: [
         { name: 'Marziyeh Khajeh Yazdi', role: 'M.Sc. Geology and Gemology', text: 'Head of the expert assessment team with more than 20 years of experience in gemstone and jewellery evaluation, certification, and education.', phone: '09153588482' },
@@ -291,14 +291,14 @@ export const content = {
     cta: {
       label: 'Call to action',
       title: 'Need to verify a gemstone or request expert guidance?',
-      text: 'Contact HGL GEM for authenticity certificates, official expert assessment, legal reports, training information, or consultation before buying and selling precious stones.',
-      button: 'Contact HGL GEM'
+      text: 'Contact us for authenticity certificates, official expert assessment, legal reports, training information, or consultation before buying and selling precious stones.',
+      button: 'Contact us'
     },
     services: {
       label: 'Services',
-      title: 'Gemstone services for confident decisions.',
-      pageTitle: 'Expert assessment, legal reporting, training, and consultation.',
-      pageText: 'HGL GEM provides practical gemstone services for buyers, sellers, students, and legal or administrative cases where authenticity and value must be documented clearly.',
+      title: 'Gemstone services',
+      pageTitle: 'Assessment, reporting, training, consultation',
+      pageText: 'Practical gemstone services support buyers, sellers, students, and legal or administrative cases where authenticity and value must be documented clearly.',
       all: 'All',
       items: [
         { title: 'Expert gemstone assessment', text: 'Specialized evaluation of gemstones, valid identification certificates, and buying or selling guidance based on expert analysis.', pill: 'Assessment' },
@@ -309,15 +309,15 @@ export const content = {
     },
     news: {
       label: 'Last news',
-      title: 'Latest gemstone insights and certification notes.'
+      title: 'Latest gemstone insights'
     },
     aboutPage: {
       label: 'About us',
-      title: 'Dedicated to the authenticity, quality, and knowledge of precious gemstones.',
-      text: 'HGL GEM supports confident decisions in gemstone buying, selling, certification, and education through long-term research and expert assessment.',
+      title: 'Authenticity, quality, and gemstone knowledge',
+      text: 'Confident decisions in gemstone buying, selling, certification, and education are supported through long-term research and expert assessment.',
       paragraphs: [
         'Our research in gemstones began in 1999, when this path started as a student project at Ferdowsi University of Mashhad. A deep interest in the beauty and hidden value of natural gems shaped our professional direction.',
-        'With more than 20 years of experience in gemstone assessment and education, we are committed to quality, authenticity, and honest guidance. HGL GEM is also a member of the Association of Official Court Experts in gold, jewellery, and gemstones.',
+        'With more than 20 years of experience in gemstone assessment and education, we are committed to quality, authenticity, and honest guidance. We are also a member of the Association of Official Court Experts in gold, jewellery, and gemstones.',
         "One of our key services is issuing authenticity certificates for precious gemstones. These certificates can be tracked and verified through this website. Our specialist team uses advanced equipment to assess each stone's authenticity and quality, helping build confidence in every transaction.",
         'Since 2005, our experience in gemology education has grown into professional training through Gohar Azmay Omid Technical and Vocational Institute. Courses cover general gemology, coloured gemstones, diamonds, and pearls, with recognized certificates awarded after successful completion.'
       ],
@@ -326,8 +326,8 @@ export const content = {
     },
     contactPage: {
       label: 'Contact us',
-      title: 'Request gemstone certification or expert guidance.',
-      text: 'Contact HGL GEM for certificate issuance, official expert assessment, legal reports, gemology training, or consultation before buying and selling precious stones.',
+      title: 'Request certification or guidance',
+      text: 'Contact us for certificate issuance, official expert assessment, legal reports, gemology training, or consultation before buying and selling precious stones.',
       infoTitle: 'Contact information',
       name: 'Name',
       namePlaceholder: 'Your name',
@@ -341,12 +341,12 @@ export const content = {
     },
     blogPage: {
       label: 'Blog',
-      title: 'Gemstone knowledge, certification news, and expert notes.',
-      text: 'Read HGL GEM updates, gemstone education articles, certificate guidance, and practical insights for buying, selling, and evaluating precious stones.'
+      title: 'Gemstone knowledge and news',
+      text: 'Read updates, gemstone education articles, certificate guidance, and practical insights for buying, selling, and evaluating precious stones.'
     },
     searchPage: {
       label: 'Search',
-      title: 'Search certificates, services, and HGL GEM articles.',
+      title: 'Search the site',
       text: 'Enter a term to search certificate guidance, expert services, training courses, and gemstone education content.',
       field: 'Search term',
       placeholder: 'Try authenticity certificate, diamond, training, or consultation',
@@ -358,7 +358,7 @@ export const content = {
     },
     notFoundPage: {
       label: '404',
-      title: 'Page not found.',
+      title: 'Page not found',
       text: 'The address may have changed, or there may not be a page at this route.',
       home: 'Back to home',
       contact: 'Contact us'

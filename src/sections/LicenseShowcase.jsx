@@ -88,7 +88,7 @@ export function LicenseShowcase({ copy }) {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:px-8">
         <div className="relative z-10">
           <p className="badge bg-purpleDeep text-white">{copy.licenses.label}</p>
-          <h2 className="section-title mt-5 text-4xl font-normal tracking-[-0.02em] text-ink sm:text-5xl">{copy.licenses.title}</h2>
+          <h2 className="section-title mt-5 text-2xl font-normal tracking-[-0.02em] text-ink sm:text-3xl">{copy.licenses.title}</h2>
           <p className="mt-5 max-w-xl text-base leading-7 text-body">{copy.licenses.text}</p>
           <div className="mt-8 grid gap-3">
             {copy.licenses.points.map((point, index) => {

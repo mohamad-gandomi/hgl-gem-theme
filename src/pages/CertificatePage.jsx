@@ -19,7 +19,7 @@ export function CertificatePage({ copy, slug }) {
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1fr_420px] lg:px-8">
           <div>
             <p className="badge">{certificateCopy.label}</p>
-            <h1 className="page-title mt-6 max-w-3xl text-4xl font-normal leading-tight text-ink sm:text-5xl">{certificateCopy.title}</h1>
+            <h1 className="page-title mt-6 max-w-3xl text-2xl font-normal leading-tight text-ink sm:text-3xl">{certificateCopy.title}</h1>
             <p className="mt-5 max-w-2xl text-base leading-8 text-body">{certificateCopy.text}</p>
           </div>
           <div className="rounded-xl border border-hairline bg-surface p-6">
