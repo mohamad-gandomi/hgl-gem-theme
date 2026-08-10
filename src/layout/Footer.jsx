@@ -1,5 +1,5 @@
 import React from 'react'
-import { brandName, contactInfo } from '../data/siteContent'
+import { contactInfo } from '../data/siteContent'
 import { assetUrl } from '../utils/assets'
 import { localizeHref } from '../utils/routing'
 
@@ -8,11 +8,9 @@ export function Footer({ copy, contacts, locale, posts, navigate }) {
     <footer className="border-t border-hairline bg-canvas">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.1fr_1.7fr_repeat(2,1fr)] lg:px-8">
         <div>
-          <div className="flex items-center gap-2 text-ink">
-            <span className="grid h-10 w-10 place-items-center rounded-lg bg-ink p-1.5">
-              <img src={assetUrl('/assets/img/hgl-logo-mark.webp')} alt="HGL GEM logo" width="80" height="67" className="h-full w-full object-contain" loading="lazy" decoding="async" />
-            </span>
-            <span className="font-semibold">{brandName}</span>
+          <div className="flex flex-col items-start text-ink">
+            <img src={assetUrl('/assets/img/hgl-logo-new.webp')} alt="HGL GEM logo" width="600" height="180" className="h-16 w-auto object-contain sm:h-20" loading="lazy" decoding="async" />
+            <span className="mt-1 max-w-sm text-sm font-medium leading-6 text-body">{copy.brandSubtitle}</span>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-6 text-body">{copy.footer.text}</p>
         </div>
@@ -26,7 +24,7 @@ export function Footer({ copy, contacts, locale, posts, navigate }) {
               {contactInfo.phones.map((phone, index) => (
                 <React.Fragment key={phone.href}>
                   {index > 0 && <span>|</span>}
-                  <a href={phone.href} className="font-medium text-ink hover:text-primary">{phone.label}</a>
+                  <a href={phone.href} className="font-medium text-ink hover:text-primary">{locale === 'en' ? phone.enLabel : phone.label}</a>
                 </React.Fragment>
               ))}
             </p>

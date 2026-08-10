@@ -6,7 +6,7 @@ import Menu from 'lucide-react/dist/esm/icons/menu.mjs'
 import PhoneCall from 'lucide-react/dist/esm/icons/phone-call.mjs'
 import Search from 'lucide-react/dist/esm/icons/search.mjs'
 import X from 'lucide-react/dist/esm/icons/x.mjs'
-import { brandName, contactInfo, content } from '../data/siteContent'
+import { contactInfo, content } from '../data/siteContent'
 import { navIcons } from '../data/icons'
 import { assetUrl } from '../utils/assets'
 import { alternateHref, localizeHref } from '../utils/routing'
@@ -36,12 +36,10 @@ export function Header({ copy, locale, routePath, query = '', alternateRoutePath
 
   return (
     <header className="sticky top-0 z-50 border-b border-hairline bg-canvas/95 backdrop-blur">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <button type="button" onClick={() => go('/')} className="flex items-center gap-2 text-start text-ink">
-          <span className="grid h-10 w-10 place-items-center rounded-lg bg-ink p-1.5">
-            <img src={assetUrl('/assets/img/hgl-logo-mark.webp')} alt="HGL GEM logo" width="80" height="67" className="h-full w-full object-contain" />
-          </span>
-          <span className="text-base font-semibold">{brandName}</span>
+      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <button type="button" onClick={() => go('/')} className="flex min-w-0 flex-col items-start text-start text-ink">
+          <img src={assetUrl('/assets/img/hgl-logo-new.webp')} alt="HGL GEM logo" width="600" height="180" className="h-11 w-auto object-contain sm:h-12" />
+          <span className="max-w-56 truncate text-xs font-medium leading-5 text-body sm:max-w-72 sm:text-sm">{copy.brandSubtitle}</span>
         </button>
         <div className="hidden items-center gap-7 md:flex">
           {copy.nav.map((item) => {
@@ -82,7 +80,7 @@ export function Header({ copy, locale, routePath, query = '', alternateRoutePath
         </div>
       </nav>
       {open && (
-        <div className="absolute inset-x-0 top-16 h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-hairline bg-canvas md:hidden">
+        <div className="absolute inset-x-0 top-20 h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain border-t border-hairline bg-canvas md:hidden">
           <div className="mx-auto flex min-h-full max-w-7xl flex-col px-4 py-5">
             <div className="grid gap-3">
               {copy.nav.map((item) => {
@@ -131,7 +129,7 @@ export function Header({ copy, locale, routePath, query = '', alternateRoutePath
                     {contactInfo.phones.map((phone, index) => (
                       <React.Fragment key={`mobile-${phone.href}`}>
                         {index > 0 && <span className="text-mutedSoft">|</span>}
-                        <a href={phone.href} className="font-semibold text-ink hover:text-primary">{phone.label}</a>
+                        <a href={phone.href} className="font-semibold text-ink hover:text-primary">{locale === 'en' ? phone.enLabel : phone.label}</a>
                       </React.Fragment>
                     ))}
                   </p>

@@ -12,9 +12,9 @@ export const contactInfo = {
     phoneLabel: 'Phone'
   },
   phones: [
-    { label: '051-38114416', href: 'tel:+985138114416' },
-    { label: '09153588482', href: 'tel:+989153588482' },
-    { label: '09303588021', href: 'tel:+989303588021' }
+    { label: '051-38114416', enLabel: '0098 51 38114416', href: 'tel:+985138114416' },
+    { label: '09153588482', enLabel: '0098 915 3588482', href: 'tel:+989153588482' },
+    { label: '09303588021', enLabel: '0098 930 3588021', href: 'tel:+989303588021' }
   ]
 }
 
@@ -22,6 +22,7 @@ export const content = {
   fa: {
     langName: 'EN',
     altLocale: 'en',
+    brandSubtitle: 'موسسه و لابراتوار گوهر آزمای امید',
     nav: [
       { label: 'صفحه‌اصلی', href: '/' },
       { label: 'درباره ما', href: '/about' },
@@ -54,7 +55,7 @@ export const content = {
     },
     why: {
       label: 'چرا ما',
-      title: 'پشتوانه ای مطمئن برای شناخت و ارزیابی گوهرسنگ ها.',
+      title: 'پشتوانه ای مطمئن برای شناخت و ارزیابی گوهرسنگ ها',
       text: 'از آغاز پژوهش های ما در سال ۱۳۷۸ تا امروز، تجربه کارشناسی رسمی، آموزش گوهرشناسی، ابزارهای پیشرفته و صدور گواهی اصالت را کنار هم قرار داده ایم تا انتخاب و معامله سنگ های قیمتی با اطمینان بیشتری انجام شود.',
       points: [
         { title: 'بیش از ۲۰ سال تجربه', text: 'پژوهش و فعالیت تخصصی ما در حوزه سنگ های قیمتی از سال ۱۳۷۸ آغاز شده است.' },
@@ -68,6 +69,16 @@ export const content = {
       title: 'درباره مجموعه ما',
       text: 'پژوهش های ما در حوزه سنگ های قیمتی از سال ۱۳۷۸ و در قالب یک پروژه دانشجویی در دانشگاه فردوسی مشهد آغاز شد. امروز با بیش از ۲۰ سال تجربه در کارشناسی، صدور گواهی اصالت و آموزش گوهرشناسی، متعهد به کیفیت، اصالت و صداقت در خدمات هستیم.',
       button: 'درباره ما'
+    },
+    licenses: {
+      label: 'گواهی های مشتری',
+      title: 'گزارشی که همراه گوهرسنگ به مشتری تحویل می شود.',
+      text: 'پس از بررسی تخصصی، نتیجه ارزیابی در قالب گزارش چاپی، جلد اختصاصی و کارت محافظ ارائه می شود تا مشخصات سنگ، کد شناسنامه و امکان پیگیری آن همیشه در دسترس خریدار باشد.',
+      points: [
+        'گزارش شناسایی شامل مشخصات فنی، تصویر سنگ و شماره اختصاصی HGL',
+        'کد و QR قابل پیگیری برای بررسی اصالت گزارش از طریق وب سایت',
+        'تحویل منظم در جلد و کارت محافظ برای نگهداری مطمئن کنار گوهرسنگ'
+      ]
     },
     members: {
       label: 'اعضا',
@@ -209,6 +220,7 @@ export const content = {
   en: {
     langName: 'فا',
     altLocale: 'fa',
+    brandSubtitle: 'Hope Gemological labratory',
     nav: [
       { label: 'Home', href: '/' },
       { label: 'About', href: '/about' },
@@ -241,7 +253,7 @@ export const content = {
     },
     why: {
       label: 'Why us',
-      title: 'Trusted gemstone expertise, documented clearly.',
+      title: 'Trusted gemstone expertise, documented clearly',
       text: 'HGL GEM combines long-running gemology research, certified expert assessment, and certificate services that support confident buying, selling, and learning.',
       points: [
         { title: 'Over 20 years of experience', text: 'Our research and specialist work in the field of gemstones began in 1999.' },
@@ -255,6 +267,16 @@ export const content = {
       title: 'Two decades of gemstone research, certification, and training.',
       text: 'Our work began in 1999 as a university research project at Ferdowsi University of Mashhad. Today, HGL GEM combines official expert assessment, advanced gemological equipment, and practical education for buyers, sellers, and students of precious stones.',
       button: 'Read about us'
+    },
+    licenses: {
+      label: 'Customer certificates',
+      title: 'A finished report customers can keep with confidence.',
+      text: 'After specialist assessment, HGL GEM delivers a printed identification report, branded folder, and protective card so the gemstone details, report code, and verification path stay clear after handover.',
+      points: [
+        'Identification report with technical details, stone image, and dedicated HGL number',
+        'Trackable code and QR path for checking report authenticity through the website',
+        'Organized folder and protective card designed to stay with the gemstone'
+      ]
     },
     members: {
       label: 'Members',
