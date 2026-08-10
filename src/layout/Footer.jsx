@@ -24,7 +24,7 @@ export function Footer({ copy, contacts, locale, posts, navigate }) {
               {contactInfo.phones.map((phone, index) => (
                 <React.Fragment key={phone.href}>
                   {index > 0 && <span>|</span>}
-                  <a href={phone.href} className="font-medium text-ink hover:text-primary">{locale === 'en' ? phone.enLabel : phone.label}</a>
+                  <a href={phone.href} className="text-base font-semibold text-ink hover:text-primary">{locale === 'en' ? phone.enLabel : phone.label}</a>
                 </React.Fragment>
               ))}
             </p>

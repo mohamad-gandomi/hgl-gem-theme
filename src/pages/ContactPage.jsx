@@ -92,7 +92,7 @@ export function ContactPage({ copy, contacts, locale }) {
             <div className="flex gap-3">
               <PhoneCall strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-primary" />
               <div className="grid gap-2">
-                {contactInfo.phones.map((phone) => <a key={phone.href} href={phone.href} className="font-medium text-ink hover:text-primary">{locale === 'en' ? phone.enLabel : phone.label}</a>)}
+                {contactInfo.phones.map((phone) => <a key={phone.href} href={phone.href} className="text-base font-semibold text-ink hover:text-primary">{locale === 'en' ? phone.enLabel : phone.label}</a>)}
               </div>
             </div>
           </div>

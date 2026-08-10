@@ -33,7 +33,7 @@ body {
 }
 
 [dir="rtl"] {
-  font-size: 15px;
+  font-size: 17px;
 }
 
 [dir="rtl"] body {
@@ -41,13 +41,13 @@ body {
 }
 
 [dir="rtl"] .page-title {
-  font-size: clamp(1.9rem, 3.5vw, 3rem);
-  line-height: 1.55;
+  font-size: clamp(2.15rem, 4vw, 3.35rem);
+  line-height: 1.5;
 }
 
 [dir="rtl"] .section-title {
-  font-size: clamp(1.7rem, 2.8vw, 2.35rem);
-  line-height: 1.6;
+  font-size: clamp(1.9rem, 3.15vw, 2.65rem);
+  line-height: 1.55;
 }
 
 button,
@@ -89,6 +89,7 @@ button {
 
 [dir="rtl"] .badge,
 [dir="rtl"] .timeline-pill {
+  font-size: 12.5px;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -169,7 +170,7 @@ button {
 }
 
 [dir="rtl"] .prose-copy {
-  font-size: 15px;
+  font-size: 17px;
 }
 
 .prose-copy h2 {
@@ -183,8 +184,8 @@ button {
 }
 
 [dir="rtl"] .prose-copy h2 {
-  font-size: 1.35rem;
-  line-height: 1.7;
+  font-size: 1.55rem;
+  line-height: 1.6;
 }
 
 .prose-copy p {

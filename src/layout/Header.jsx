@@ -38,8 +38,8 @@ export function Header({ copy, locale, routePath, query = '', alternateRoutePath
     <header className="sticky top-0 z-50 border-b border-hairline bg-canvas/95 backdrop-blur">
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <button type="button" onClick={() => go('/')} className="flex min-w-0 flex-col items-start text-start text-ink">
-          <img src={assetUrl('/assets/img/hgl-logo-new.webp')} alt="HGL GEM logo" width="600" height="180" className="h-11 w-auto object-contain sm:h-12" />
-          <span className="max-w-56 truncate text-xs font-medium leading-5 text-body sm:max-w-72 sm:text-sm">{copy.brandSubtitle}</span>
+          <img src={assetUrl('/assets/img/hgl-logo-new.webp')} alt="HGL GEM logo" width="600" height="180" className="h-8 w-auto object-contain sm:h-12" />
+          <span className="max-w-40 truncate text-[10px] font-medium leading-4 text-body sm:max-w-72 sm:text-sm sm:leading-5">{copy.brandSubtitle}</span>
         </button>
         <div className="hidden items-center gap-7 md:flex">
           {copy.nav.map((item) => {
@@ -129,7 +129,7 @@ export function Header({ copy, locale, routePath, query = '', alternateRoutePath
                     {contactInfo.phones.map((phone, index) => (
                       <React.Fragment key={`mobile-${phone.href}`}>
                         {index > 0 && <span className="text-mutedSoft">|</span>}
-                        <a href={phone.href} className="font-semibold text-ink hover:text-primary">{locale === 'en' ? phone.enLabel : phone.label}</a>
+                        <a href={phone.href} className="text-base font-semibold text-ink hover:text-primary">{locale === 'en' ? phone.enLabel : phone.label}</a>
                       </React.Fragment>
                     ))}
                   </p>
