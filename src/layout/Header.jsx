@@ -35,7 +35,7 @@ export function Header({ copy, locale, routePath, query = '', alternateRoutePath
   const languageHref = alternateHref(alternateRoutePath || routePath, copy.altLocale, query)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-hairline bg-canvas/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-t-4 border-b-hairline border-t-purpleDeep bg-canvas/95 backdrop-blur">
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <button type="button" onClick={() => go('/')} className="flex min-w-0 flex-col items-start text-start text-ink">
           <img src={assetUrl('/assets/img/hgl-logo-new.webp')} alt="HGL GEM logo" width="600" height="180" className="h-8 w-auto object-contain sm:h-12" />
@@ -115,15 +115,15 @@ export function Header({ copy, locale, routePath, query = '', alternateRoutePath
             <div className="mt-auto pt-8">
               <div className="rounded-xl border border-hairline bg-surface p-4 text-sm leading-7 text-body">
                 <div className="flex gap-3 border-b border-hairline pb-4">
-                  <MapPin strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-primary" />
+                  <MapPin strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-purpleDeep" />
                   <p>{contactInfo[locale].address}</p>
                 </div>
                 <div className="flex gap-3 border-b border-hairline py-4">
-                  <Clock strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-primary" />
+                  <Clock strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-purpleDeep" />
                   <p>{content[locale].footer.hoursPrefix}: {contactInfo[locale].hours}</p>
                 </div>
                 <div className="flex gap-3 pt-4">
-                  <PhoneCall strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-primary" />
+                  <PhoneCall strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-purpleDeep" />
                   <p className="flex flex-wrap gap-x-2 gap-y-1">
                     <span>{contactInfo[locale].phoneLabel}:</span>
                     {contactInfo.phones.map((phone, index) => (

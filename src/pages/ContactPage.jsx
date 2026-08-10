@@ -82,15 +82,15 @@ export function ContactPage({ copy, contacts, locale }) {
           <h2 className="text-2xl font-normal tracking-[-0.01em] text-ink">{copy.contactPage.infoTitle}</h2>
           <div className="mt-6 grid gap-5 text-sm leading-6 text-body">
             <div className="flex gap-3">
-              <MapPin strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-primary" />
+              <MapPin strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-purpleDeep" />
               <span>{contacts.address}</span>
             </div>
             <div className="flex gap-3">
-              <Clock strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-primary" />
+              <Clock strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-purpleDeep" />
               <span>{contacts.hours}</span>
             </div>
             <div className="flex gap-3">
-              <PhoneCall strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-primary" />
+              <PhoneCall strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-purpleDeep" />
               <div className="grid gap-2">
                 {contactInfo.phones.map((phone) => <a key={phone.href} href={phone.href} className="text-base font-semibold text-ink hover:text-primary">{locale === 'en' ? phone.enLabel : phone.label}</a>)}
               </div>

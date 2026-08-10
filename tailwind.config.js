@@ -13,6 +13,7 @@ export default {
         primary: '#f4c20d',
         primaryText: '#755600',
         primaryActive: '#d6a800',
+        purpleDeep: '#35185C',
         surface: '#ffffff',
         surfaceStrong: '#e6e5e0',
         hairline: '#e6e5e0',

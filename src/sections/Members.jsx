@@ -20,7 +20,7 @@ export function Members({ copy }) {
 
             return (
             <article key={member.name} className="feature-card">
-              <span className="grid h-11 w-11 place-items-center rounded-lg bg-primary/15 text-primary">
+              <span className="grid h-11 w-11 place-items-center rounded-lg bg-purpleDeep/10 text-purpleDeep">
                 <MemberIcon strokeWidth={1.8} className="h-6 w-6" />
               </span>
               <h3 className="mt-5 text-lg font-semibold text-ink">{member.name}</h3>

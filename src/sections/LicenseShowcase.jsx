@@ -84,10 +84,10 @@ export function LicenseShowcase({ copy }) {
   }, [lightboxIndex])
 
   return (
-    <section className="section-pad border-y border-hairline bg-canvasSoft">
+    <section className="section-pad relative overflow-hidden border-y border-hairline bg-canvasSoft">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:px-8">
-        <div>
-          <p className="badge">{copy.licenses.label}</p>
+        <div className="relative z-10">
+          <p className="badge bg-purpleDeep text-white">{copy.licenses.label}</p>
           <h2 className="section-title mt-5 text-4xl font-normal tracking-[-0.02em] text-ink sm:text-5xl">{copy.licenses.title}</h2>
           <p className="mt-5 max-w-xl text-base leading-7 text-body">{copy.licenses.text}</p>
           <div className="mt-8 grid gap-3">
@@ -96,7 +96,7 @@ export function LicenseShowcase({ copy }) {
 
               return (
                 <div key={point} className="flex items-start gap-3 rounded-lg border border-hairline bg-surface p-4">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-primary/15 text-primaryText">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-purpleDeep/10 text-purpleDeep">
                     <Icon strokeWidth={1.8} className="h-5 w-5" />
                   </span>
                   <p className="text-sm leading-6 text-body">{point}</p>
@@ -106,7 +106,7 @@ export function LicenseShowcase({ copy }) {
           </div>
         </div>
 
-        <div>
+        <div className="relative z-10">
           <div className="relative mx-auto max-w-xl">
             <div
               className="feature-card overflow-hidden p-2"
@@ -169,7 +169,7 @@ export function LicenseShowcase({ copy }) {
                 key={image.src}
                 type="button"
                 onClick={() => goToSlide(index)}
-                className={`h-3 rounded-full transition-all ${activeIndex === index ? 'w-8 bg-primary' : 'w-3 bg-hairlineStrong'}`}
+                className={`h-3 rounded-full transition-all ${activeIndex === index ? 'w-8 bg-purpleDeep' : 'w-3 bg-hairlineStrong'}`}
                 aria-label={`Show license image ${index + 1}`}
                 aria-current={activeIndex === index}
               />
@@ -191,7 +191,7 @@ export function LicenseShowcase({ copy }) {
               <button
                 type="button"
                 onClick={() => setLightboxIndex(null)}
-                className="absolute right-3 top-3 z-10 grid h-10 w-10 place-items-center rounded-lg border border-hairlineStrong bg-surface text-ink hover:border-ink"
+                className="absolute right-3 top-3 z-10 grid h-10 w-10 place-items-center rounded-lg border border-purpleDeep/30 bg-surface text-purpleDeep hover:border-purpleDeep"
                 aria-label={copy.ui.close}
               >
                 <X strokeWidth={1.8} className="h-5 w-5" />
@@ -206,7 +206,7 @@ export function LicenseShowcase({ copy }) {
             <button
               type="button"
               onClick={() => setLightboxIndex((lightboxIndex - 1 + licenseImages.length) % licenseImages.length)}
-              className="absolute left-4 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-lg border border-hairlineStrong bg-surface text-ink hover:border-ink sm:grid"
+              className="absolute left-4 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-lg border border-purpleDeep/30 bg-surface text-purpleDeep hover:border-purpleDeep sm:grid"
               aria-label="Previous license image"
             >
               <ChevronLeft strokeWidth={1.8} className="h-5 w-5" />
@@ -214,7 +214,7 @@ export function LicenseShowcase({ copy }) {
             <button
               type="button"
               onClick={() => setLightboxIndex((lightboxIndex + 1) % licenseImages.length)}
-              className="absolute right-4 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-lg border border-hairlineStrong bg-surface text-ink hover:border-ink sm:grid"
+              className="absolute right-4 top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-lg border border-purpleDeep/30 bg-surface text-purpleDeep hover:border-purpleDeep sm:grid"
               aria-label="Next license image"
             >
               <ChevronRight strokeWidth={1.8} className="h-5 w-5" />

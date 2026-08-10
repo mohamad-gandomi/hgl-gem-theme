@@ -24,7 +24,7 @@ export function CertificatePage({ copy, slug }) {
           </div>
           <div className="rounded-xl border border-hairline bg-surface p-6">
             <div className="flex items-center gap-3 border-b border-hairline pb-5">
-              <span className="grid h-11 w-11 place-items-center rounded-lg bg-primary/15 text-primary">
+              <span className="grid h-11 w-11 place-items-center rounded-lg bg-purpleDeep/10 text-purpleDeep">
                 <FileCheck2 strokeWidth={1.8} className="h-5 w-5" />
               </span>
               <div>
@@ -33,7 +33,7 @@ export function CertificatePage({ copy, slug }) {
               </div>
             </div>
             <div className="mt-5 flex gap-3">
-              <ShieldCheck strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-primary" />
+              <ShieldCheck strokeWidth={1.8} className="mt-1 h-5 w-5 shrink-0 text-purpleDeep" />
               <div>
                 <p role="heading" aria-level="2" className="text-base font-semibold leading-7 text-ink">{certificateCopy.protectedTitle}</p>
                 <p className="mt-2 text-sm leading-6 text-body">{certificateCopy.protectedText}</p>
