@@ -59,8 +59,11 @@ add_action('after_switch_theme', static function (): void {
 
 add_action('wp_enqueue_scripts', [\HGL_GEM\Theme\AppAssets::class, 'enqueue']);
 add_action('wp_head', [\HGL_GEM\Theme\AppAssets::class, 'printHeadTags'], 1);
+add_action('template_redirect', [\HGL_GEM\Theme\AppAssets::class, 'maybePrintSitemap'], 0);
+add_filter('document_title_parts', [\HGL_GEM\Theme\AppAssets::class, 'documentTitleParts']);
 add_filter('language_attributes', [\HGL_GEM\Theme\AppAssets::class, 'languageAttributes']);
 add_filter('script_loader_tag', [\HGL_GEM\Theme\AppAssets::class, 'moduleScriptTag'], 10, 3);
+add_filter('robots_txt', [\HGL_GEM\Theme\AppAssets::class, 'robotsTxt'], 10, 2);
 
 add_action('rest_api_init', function (): void {
     \HGL_GEM\Blog\Rest\BlogRestController::registerRoutes();
